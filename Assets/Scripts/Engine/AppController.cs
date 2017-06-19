@@ -36,13 +36,13 @@ public class AppController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//
-		LoadPlatformSpecificSetup ();
+		LoadSetup ();
 	}
 
 	//
-	void LoadPlatformSpecificSetup() {
+	void LoadSetup() {
 		#if LOG_ENGINE
-		Debug.Log("AppController : Load Platform Specific Setup From Scene");
+		Debug.Log("AppController : Load Specific Setup");
 		#endif
 
 		//
