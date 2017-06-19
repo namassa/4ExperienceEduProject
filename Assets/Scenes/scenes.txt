@@ -1,0 +1,12 @@
+// karol.ryt@gmail.com
+
+Sceny numerujemy w kolejności wczytywania! Pozwala to duzo latwiej znalezc punkt zaczepienia w obcym projekcie.
+
+Sceny opcjonalne do builda np zawierajace obiekty dla danej platformy np GearVR i Daydream powinno sie separowac przez dodanei liter. Co daje nam:
+
+001_Init
+002a_Platform_GearVR
+002b_Platform_Daydream
+
+numeracje mocno separujemy dla bezpieczenstwa jakby mialo dosc pare scen przed czyli np Menu będzie 
+010_Menu

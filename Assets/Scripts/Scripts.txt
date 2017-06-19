@@ -1,0 +1,10 @@
+// karol.ryt@gmail.com
+
+Tu ląduje cały! Kod! 
+
+
+1. Folder Engine -> tu ląduje caly kod nie zwiazany z logika gry! Czyli kod odpowiedzialny za gesty, input, save, load itd.
+2. Folder Gameplay -> tu laduje calosc odpowiedzialna za gameplay czyli separujemy to co sie dzieje w grze (gameplay) od tego co steruje tym (engine)
+3. Debug -> tu laduja pliki tymczasowe! Wazne zaczynamy je od DEBUG_Klasa.cs
+
+Jeśli piszemy edytor do jakiegoś komponentu to separujemy ten komponent do foldery o jego nazwie i dodajemy podfolder Editor!!!!

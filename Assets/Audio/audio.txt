@@ -1,0 +1,9 @@
+// karol.ryt@gmail.com
+
+Tu wrzucamy pliki audio.
+Oczywiscie po dodanie odpowiednich katalogow czyli 
+
+Music
+SFX
+Ambient 
+itd.

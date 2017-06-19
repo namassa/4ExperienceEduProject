@@ -1,0 +1,3 @@
+// karol.ryt@gmail.com
+
+Tu wrzucamy każda paczka z asset stora związana z jakąś funkcjonalnością. Jedynym wyjątkiem są pliki graficzne, one powinny wylądować w ArtAssets

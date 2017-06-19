@@ -1,0 +1,6 @@
+// karol.ryt@gmail.com
+
+Tu wrzucamy pliki graficzne, paczki z asset stora itd.
+Dodatkowo Icon&Splash powinien zawierać aktualną ikonę i splasha jesli wymagany.
+
+Paczki z asset stora graficzne powinny wylądować w katalogu ArtAssets/Packages
