@@ -5,10 +5,7 @@ using UnityEngine;
 // karol@4experience.co
 // core controller of the app
 public class AppController : MonoBehaviour {
-
-	// app should know about platform but:) 
-	public DeploymentPlatform CurrentPlatform { get; private set; }
-
+	
 	// simple event
 	public System.Action onInitialized = delegate { };
 
@@ -16,22 +13,9 @@ public class AppController : MonoBehaviour {
 	public static AppController Instance { get; private set; }
 	void Awake() {
 		Instance = this;
-
-		DetectCurrentPlatform ();
+		DontDestroyOnLoad (gameObject);
 	}
 
-	//
-	void DetectCurrentPlatform() {
-		CurrentPlatform = DeploymentPlatform.DEVELOPMENT;
-
-		#if PLATFORM_GEARVR
-		CurrentPlatform = DeploymentPlatform.GEARVR;
-		#endif
-
-		#if LOG_ENGINE
-		Debug.Log("AppController : Detect CurrentPlatform ["+CurrentPlatform+"]");
-		#endif
-	}
 
 	// Use this for initialization
 	void Start () {
@@ -53,26 +37,12 @@ public class AppController : MonoBehaviour {
 	IEnumerator LoadSetupCoroutine() {
 
 		#if LOG_ENGINE
-		Debug.Log("AppController : Load Platform Setup");
-		#endif
-		// load platform specific prefabs from scene just once as engine layer. Rest will be handled via game scene manager
-		AsyncOperation async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync (1, UnityEngine.SceneManagement.LoadSceneMode.Additive);
-
-		while (!async.isDone) {
-			yield return new WaitForEndOfFrame ();
-		}
-
-		#if LOG_ENGINE
-		Debug.Log("AppController : Load Additional Engine Setup");
+		Debug.Log("AppController : Load Async Setup");
 		#endif
 
-		// load engine components
-		async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync (2, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+		// TU POWINNO SIE CALY ASYNC TRZYMAC W LADOWANIU
 
-		while (!async.isDone) {
-			yield return new WaitForEndOfFrame ();
-		}
-	
+		yield return new WaitForEndOfFrame ();
 		// 
 		OnInitialized ();
 

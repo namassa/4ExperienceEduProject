@@ -13,6 +13,7 @@ public class SceneLoadingController : MonoBehaviour {
 	public static SceneLoadingController Instance { get; private set; }
 	void Awake() {
 		Instance = this;
+		DontDestroyOnLoad (gameObject);
 	}
 
 	//
