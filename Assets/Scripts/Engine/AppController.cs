@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // karol@4experience.co
 // core controller of the app
@@ -23,6 +24,7 @@ public class AppController : MonoBehaviour {
 		LoadSetup ();
 	}
 
+
 	//
 	void LoadSetup() {
 		#if LOG_ENGINE
@@ -41,15 +43,26 @@ public class AppController : MonoBehaviour {
 		#endif
 
 		// TU POWINNO SIE CALY ASYNC TRZYMAC W LADOWANIU
+		AsyncOperation async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync (1, UnityEngine.SceneManagement.LoadSceneMode.Single);
 
-		yield return new WaitForEndOfFrame ();
+		while (!async.isDone) {
+			yield return new WaitForEndOfFrame ();
+		}
+
+	
 		// 
+		async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync (2, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+
+		while (!async.isDone) {
+			yield return new WaitForEndOfFrame ();
+		}
+
 		OnInitialized ();
 
 		#if LOG_ENGINE
 		Debug.Log("AppController : Load Menu Scene");
 		#endif
-
+	
 		SceneLoadingController.Instance.LoadScene(GameScene.Menu);
 	}
 		

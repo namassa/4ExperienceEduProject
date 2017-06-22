@@ -9,6 +9,9 @@ using UnityEngine;
 public class DEBUG_TestScript : MonoBehaviour {
 
 	// Use this for initialization
+	void Awake(){
+		DontDestroyOnLoad (gameObject);
+	}
 	void Start () {
 		#if EXTENDED_LOG
 		Debug.Log (gameObject.name);	
