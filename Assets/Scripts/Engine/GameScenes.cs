@@ -5,5 +5,5 @@ using UnityEngine;
 // karol.ryt@gmail.com
 // we count only gameplay viable scenes
 public enum GameScene {
-	Menu, // 010_Menu
+	Menu // 002_Menu
 }
