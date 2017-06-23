@@ -18,8 +18,7 @@ public class SceneLoadingController : MonoBehaviour {
     }
 
     [SerializeField]
-    private SceneLoadingMode sceneLoadingMode;
-    private bool _wasInitialMenuLoaded;
+    private SceneLoadingMode sceneLoadingMode = SceneLoadingMode.Custom_AsyncLoad;
 
 	// half singleton
 	public static SceneLoadingController Instance { get; private set; }
@@ -29,8 +28,7 @@ public class SceneLoadingController : MonoBehaviour {
 	}
 
     //
-    public bool isLoading;
-	public bool IsLoading { get { return isLoading; } private set { isLoading = value; } }
+	public bool IsLoading { get; private set; }
 	public float Progress { get; private set; }
 	public System.Action<GameScene> onLoadingComplete = delegate { };
 	public System.Action<GameScene> onLoadingBegin = delegate { };
@@ -42,7 +40,7 @@ public class SceneLoadingController : MonoBehaviour {
 	}
 		
 	//
-	public void LoadScene(GameScene scene) {
+	public void LoadScene(GameScene scene, bool unloadCurrent) {
         // TODO Code scene loading with unloading current scene
 
         if (IsLoading) {
@@ -67,7 +65,7 @@ public class SceneLoadingController : MonoBehaviour {
                     break;
 
                 case SceneLoadingMode.Custom_AsyncLoad:
-                    StartCoroutine(Custom_AsyncLoadCor(scene));
+                    StartCoroutine(Custom_AsyncLoadCor(scene, unloadCurrent));
                     break;
             }
         }        
@@ -85,7 +83,7 @@ public class SceneLoadingController : MonoBehaviour {
 	}
 
     //
-    IEnumerator Custom_AsyncLoadCor(GameScene scene)
+    IEnumerator Custom_AsyncLoadCor(GameScene scene, bool unloadCurrent)
     {
         yield return new WaitForSeconds (1f);
 
@@ -94,14 +92,16 @@ public class SceneLoadingController : MonoBehaviour {
 
         AsyncOperation asyncLoadOp;
 
-        if (!_wasInitialMenuLoaded)
-            asyncLoadOp = SceneManager.LoadSceneAsync(GetSceneName(scene));
-        else
-            asyncLoadOp = SceneManager.LoadSceneAsync(GetSceneName(scene), LoadSceneMode.Additive);
+        if (unloadCurrent) {
+            AsyncOperation asyncUnloadOp = SceneManager.UnloadSceneAsync(currScene);
+            
+            while (!asyncUnloadOp.isDone) {
+                yield return new WaitForEndOfFrame();
+            }
+        }
 
-        if (currScene.buildIndex != 0)
-            SceneManager.UnloadSceneAsync(currScene);
-
+       
+        asyncLoadOp = SceneManager.LoadSceneAsync(GetSceneName(scene), LoadSceneMode.Additive);
         asyncLoadOp.allowSceneActivation = false;
 
         HandleLoadingStart(scene);
