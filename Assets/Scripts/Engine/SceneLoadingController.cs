@@ -27,17 +27,49 @@ public class SceneLoadingController : MonoBehaviour {
 		IsLoading = false;
 		Progress = 0f;
 	}
-		
+
 	//
 	public void LoadScene(GameScene scene) {
-		// TODO Code scene loading with unloading current scene
+		StartCoroutine (LoadSceneCoroutine(scene));
+	}
+
+	//
+	private IEnumerator LoadSceneCoroutine(GameScene scene) {
+
+		bool unloadPrevious = AppController.Instance.Initialized;
+		onLoadingBegin(scene);
+		string sceneName = GetSceneName (scene);
+
+		//Unload
+		AsyncOperation sceneUnloading = null;
+		if (unloadPrevious) {
+			sceneUnloading = SceneManager.UnloadSceneAsync (SceneManager.GetActiveScene ().name);
+		}
+		//Load
+		AsyncOperation sceneLoading = SceneManager.LoadSceneAsync (sceneName, LoadSceneMode.Additive);
+
+		IsLoading = true;
+		while((unloadPrevious && !sceneUnloading.isDone) || !sceneLoading.isDone) {
+			Progress = unloadPrevious ? Mathf.Min (sceneUnloading.progress, sceneLoading.progress) : sceneLoading.progress;
+			yield return new WaitForEndOfFrame ();
+		}
+		IsLoading = false;
+
+
+		Scene loadedScene = SceneManager.GetSceneByName (sceneName);
+		SceneManager.SetActiveScene(loadedScene);
+
+		onLoadingComplete (scene);
 	}
 
 	//
 	private string GetSceneName(GameScene scene) {
 		switch (scene) {
 		case GameScene.Menu:
-			return "010_Menu";
+			return "002_Menu";
+
+		case GameScene.Game:
+			return "003_Game";
 
             default:
 			return string.Empty;

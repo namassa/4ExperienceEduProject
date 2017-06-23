@@ -8,6 +8,7 @@ public class AppController : MonoBehaviour {
 	
 	// simple event
 	public System.Action onInitialized = delegate { };
+	public bool Initialized { get; private set; }
 
 	// half singleton
 	public static AppController Instance { get; private set; }
@@ -16,11 +17,11 @@ public class AppController : MonoBehaviour {
 		DontDestroyOnLoad (gameObject);
 	}
 
-
 	// Use this for initialization
 	void Start () {
 		//
 		LoadSetup ();
+		Initialized = false;
 	}
 
 	//
@@ -44,13 +45,14 @@ public class AppController : MonoBehaviour {
 
 		yield return new WaitForEndOfFrame ();
 		// 
-		OnInitialized ();
+
 
 		#if LOG_ENGINE
 		Debug.Log("AppController : Load Menu Scene");
 		#endif
 
 		SceneLoadingController.Instance.LoadScene(GameScene.Menu);
+		OnInitialized ();
 	}
 		
 	//
@@ -58,7 +60,7 @@ public class AppController : MonoBehaviour {
 		#if LOG_ENGINE
 		Debug.Log("AppController : Call OnInitialized Event");
 		#endif
-
+		Initialized = true;
 		onInitialized ();
 	}
 }
