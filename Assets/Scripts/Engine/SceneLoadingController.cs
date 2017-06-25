@@ -41,16 +41,18 @@ public class SceneLoadingController : MonoBehaviour {
 		string sceneName = GetSceneName (scene);
 
 		//Unload
-		AsyncOperation sceneUnloading = null;
+
 		if (unloadPrevious) {
+			AsyncOperation sceneUnloading = null;
 			sceneUnloading = SceneManager.UnloadSceneAsync (SceneManager.GetActiveScene ().name);
+			yield return new WaitUntil (() => !sceneUnloading.isDone);
 		}
+
 		//Load
 		AsyncOperation sceneLoading = SceneManager.LoadSceneAsync (sceneName, LoadSceneMode.Additive);
-
 		IsLoading = true;
-		while((unloadPrevious && !sceneUnloading.isDone) || !sceneLoading.isDone) {
-			Progress = unloadPrevious ? Mathf.Min (sceneUnloading.progress, sceneLoading.progress) : sceneLoading.progress;
+		while(!sceneLoading.isDone) {
+			Progress = sceneLoading.progress;
 			yield return new WaitForEndOfFrame ();
 		}
 		IsLoading = false;
