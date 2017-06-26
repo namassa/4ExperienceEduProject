@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-// karol.ryt@gmail.com
+﻿// karol.ryt@gmail.com
 // we count only gameplay viable scenes
-public enum GameScene {
-	Menu, // 010_Menu
+public enum GameScene
+{
+    Menu, // 002_Menu
+    Stage1, // 003_Stage1
+    Stage2 // 004_Stage2
 }
