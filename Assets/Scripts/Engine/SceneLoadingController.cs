@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 //  3. to aktywowanie scen na spacji tez bym olal:)
 //  4. jak masz takie cos jak w 42 lini z System.Action<> nazwaeventa = delegate { }; to nie potrzeba sprawdzac w twoich funkacjach
 //	   czy istnieja eventy a po prosty wolac onLoadingBegin(scena); To tez wiec sobie skoryguj i daj do coroutyny:) tak by o 2 funkcje mniej miec.
-
+//  5. Debug.Logi wsadzic w #if Log_Engine albo wywalic;) 
 
 // karol@4experience.co
 // responsible for changing scenes and broadcasting progress and isDone events
@@ -48,7 +48,7 @@ public class SceneLoadingController : MonoBehaviour {
 		IsLoading = false;
 		Progress = 0f;
 	}
-		
+
 	//
 	public void LoadScene(GameScene scene, bool unloadCurrent) {
         // TODO Code scene loading with unloading current scene
@@ -78,7 +78,7 @@ public class SceneLoadingController : MonoBehaviour {
                     StartCoroutine(Custom_AsyncLoadCor(scene, unloadCurrent));
                     break;
             }
-        }        
+        }
 	}
 
 	//
@@ -104,13 +104,13 @@ public class SceneLoadingController : MonoBehaviour {
 
         if (unloadCurrent) {
             AsyncOperation asyncUnloadOp = SceneManager.UnloadSceneAsync(currScene);
-            
+
             while (!asyncUnloadOp.isDone) {
                 yield return new WaitForEndOfFrame();
             }
         }
 
-       
+
         asyncLoadOp = SceneManager.LoadSceneAsync(GetSceneName(scene), LoadSceneMode.Additive);
         asyncLoadOp.allowSceneActivation = false;
 
@@ -119,8 +119,8 @@ public class SceneLoadingController : MonoBehaviour {
         while (!asyncLoadOp.isDone) {
             // unity's loading progress is clamped between 0-0.9
             // value of 1 means completion
-            
-            // convert progress value to 0-1 
+
+            // convert progress value to 0-1
             Progress = Mathf.Clamp01(asyncLoadOp.progress / 0.9f);
             Debug.Log("Loading progress: " + (Progress * 100) + "%");
 
