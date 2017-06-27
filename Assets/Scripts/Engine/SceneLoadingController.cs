@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
+// FEEDBACK:
+// karol.ryt@gmail.com
+// 1. wywalic logi albo poprawic pod Log_ENgine
 
 // karol@4experience.co
 // responsible for changing scenes and broadcasting progress and isDone events
