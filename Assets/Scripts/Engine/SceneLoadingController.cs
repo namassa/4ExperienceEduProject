@@ -4,6 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
+// FEEDBACK:
+// karol.ryt@gmail.com
+//  1. wywal enuma;) fajne ze jest ale bedziemy tylko robic coroutine
+//  2. popraw kod tak by enumow nie bylo
+//  3. to aktywowanie scen na spacji tez bym olal:)
+//  4. jak masz takie cos jak w 42 lini z System.Action<> nazwaeventa = delegate { }; to nie potrzeba sprawdzac w twoich funkacjach
+//	   czy istnieja eventy a po prosty wolac onLoadingBegin(scena); To tez wiec sobie skoryguj i daj do coroutyny:) tak by o 2 funkcje mniej miec.
+
 
 // karol@4experience.co
 // responsible for changing scenes and broadcasting progress and isDone events
@@ -17,6 +25,8 @@ public class SceneLoadingController : MonoBehaviour {
         Custom_AsyncLoad
     }
 
+	// karol
+	// z racji wyzej tego nam nie potrzeba
     [SerializeField]
     private SceneLoadingMode sceneLoadingMode = SceneLoadingMode.Custom_AsyncLoad;
 
