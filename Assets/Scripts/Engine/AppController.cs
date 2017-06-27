@@ -50,7 +50,7 @@ public class AppController : MonoBehaviour {
 		Debug.Log("AppController : Load Menu Scene");
 		#endif
 
-		SceneLoadingController.Instance.LoadMainScene(GameScenes.Menu);
+		SceneLoadingController.Instance.LoadMainScene(GameScene.Menu);
 	}
 		
 	//

@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum GameScenes { Menu }
 
-// FEEDBACK
-// karol.ryt@gmail.com
-// 1. podpisujemy sie z data ponizej mojej usunietej stopki tak by wiadomo kto zmienial;)
-// 2. enum wyzej juz istnieje w gamescene.cs
+// dsiemienik@gmail.com   27.06.2017
 
 // karol@4experience.co
 // responsible for changing scenes and broadcasting progress and isDone events
@@ -25,8 +21,8 @@ public class SceneLoadingController : MonoBehaviour {
 	//
 	public bool IsLoading { get; private set; }
 	public float Progress { get; private set; }
-	public System.Action<GameScenes> onLoadingComplete = delegate { };
-	public System.Action<GameScenes> onLoadingBegin = delegate { };
+	public System.Action<GameScene> onLoadingComplete = delegate { };
+	public System.Action<GameScene> onLoadingBegin = delegate { };
 
 	//
 	void Start() {
@@ -35,16 +31,16 @@ public class SceneLoadingController : MonoBehaviour {
 	}
 
 	//
-	public void LoadMainScene(GameScenes scene) {
+	public void LoadMainScene(GameScene scene) {
         // TODO Code scene loading with unloading current scene
-        StartCoroutine(SceneLoad(GameScenes.Menu));
+        StartCoroutine(SceneLoad(GameScene.Menu));
 	}
-    public void LoadScene(GameScenes scene, bool withUnload)
+    public void LoadScene(GameScene scene, bool withUnload)
     {
         StartCoroutine(SceneLoad(scene, withUnload));
     }
 
-    IEnumerator SceneLoad(GameScenes scene, bool withUnload = false)
+    IEnumerator SceneLoad(GameScene scene, bool withUnload = false)
     {
         if(withUnload)
         {
@@ -71,9 +67,9 @@ public class SceneLoadingController : MonoBehaviour {
     }
 
 	//
-	private string GetSceneName(GameScenes scene) {
+	private string GetSceneName(GameScene scene) {
 		switch (scene) {
-		case GameScenes.Menu:
+		case GameScene.Menu:
 			return "002_Menu";
             default:
 			return string.Empty;
