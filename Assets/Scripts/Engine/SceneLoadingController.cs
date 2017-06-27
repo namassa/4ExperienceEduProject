@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 // FEEDBACK:
 // karol.ryt@gmail.com
 // 1. wywalic logi albo poprawic pod Log_ENgine
+// 2. podpisujemy sie z data ponizej mojej usunietej stopki tak by wiadomo kto zmienial;)
 
 // karol@4experience.co
 // responsible for changing scenes and broadcasting progress and isDone events
@@ -29,7 +30,7 @@ public class SceneLoadingController : MonoBehaviour {
 		IsLoading = false;
 		Progress = 0f;
 	}
-		
+
 	//
 	public void LoadScene(GameScene scene) {
 		// TODO Code scene loading with unloading current scene
