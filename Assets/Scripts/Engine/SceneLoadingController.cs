@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
+// FEEDBACK
+// karol.ryt@gmail.com
+// 1. podpisujemy sie z data ponizej mojej usunietej stopki tak by wiadomo kto zmienial;)
 
 // karol@4experience.co
 // responsible for changing scenes and broadcasting progress and isDone events
