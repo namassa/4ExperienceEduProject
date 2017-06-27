@@ -1,4 +1,6 @@
-﻿// karol.ryt@gmail.com
+﻿// Wojciech Sęk
+// knotidm@gmail.com
+// 26.06.2017
 // we count only gameplay viable scenes
 public enum GameScene
 {

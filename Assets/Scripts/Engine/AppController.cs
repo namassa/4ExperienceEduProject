@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// karol@4experience.co
+// Wojciech Sęk
+// knotidm@gmail.com
+// 26.06.2017
 // core controller of the app
 public class AppController : MonoBehaviour {
 	
