@@ -3,6 +3,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// FEEDBACK
+// karol.ryt@gmail.com
+// 1. gdzie orginalny autor pliku:)
+// 2. podpisujemy sie z data ponizej mojej usunietej stopki tak by wiadomo kto zmienial;)
+// 3. zmienne mozna pogrupowac. Np eventy osobno. a ten Instance moze byc blisko awake jako niby singleton
+
 // knotidm@gmail.com
 // responsible for changing scenes and broadcasting progress and isDone events
 public class SceneLoadingController : MonoBehaviour
