@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum GameScenes { Menu } 
+public enum GameScenes { Menu }
+
+// FEEDBACK
+// karol.ryt@gmail.com
+// 1. podpisujemy sie z data ponizej mojej usunietej stopki tak by wiadomo kto zmienial;)
+// 2. enum wyzej juz istnieje w gamescene.cs
 
 // karol@4experience.co
 // responsible for changing scenes and broadcasting progress and isDone events
@@ -28,7 +33,7 @@ public class SceneLoadingController : MonoBehaviour {
 		IsLoading = false;
 		Progress = 0f;
 	}
-		
+
 	//
 	public void LoadMainScene(GameScenes scene) {
         // TODO Code scene loading with unloading current scene
@@ -50,7 +55,7 @@ public class SceneLoadingController : MonoBehaviour {
                 yield return new WaitForEndOfFrame();
             }
         }
-        
+
         string sceneToLoad = GetSceneName(scene);
 
         AsyncOperation loading = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
