@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // jarekdc@gmail.com
-// holds enemy prefabs and instantiates them
+// Holds enemy prefabs and instantiates them
 public class EnemyFactory : MonoBehaviour
 {
     // could use a dictonary if we have more enemies
@@ -15,6 +15,7 @@ public class EnemyFactory : MonoBehaviour
     //
     public void SpawnEnemy(string enemyPrefabName)
     {
+
         GameObject requestedPrefab = System.Array.Find(enemyPrefabs, (prefab => prefab.name == enemyPrefabName));
 
         if (requestedPrefab != null)
@@ -23,9 +24,7 @@ public class EnemyFactory : MonoBehaviour
         }
         else
         {
-            #if LOG_ENGINE
-            Debug.Log("requested prefab not found, name: " + enemyPrefabName);
-            #endif
+            Debug.LogWarning("requested prefab not found, name: " + enemyPrefabName);
         }
     }
 }

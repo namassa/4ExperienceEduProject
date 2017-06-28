@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // jarekdc@gmail.com
-// registers actions(scene transitions) on menu buttons
+// Registers actions(scene transitions) on menu buttons
 public class MenuController : MonoBehaviour
 {
     [SerializeField]
@@ -13,7 +13,6 @@ public class MenuController : MonoBehaviour
     //
     void Awake()
     {
-        // ref do
         loadFactorySceneBtn.onClick.AddListener(LoadFactoryScene); 
     }
 
