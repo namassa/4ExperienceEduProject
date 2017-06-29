@@ -6,61 +6,67 @@ using UnityEngine;
 // knotidm@gmail.com
 // 26.06.2017
 // core controller of the app
-public class AppController : MonoBehaviour {
-	
-	// simple event
-	public System.Action onInitialized = delegate { };
+public class AppController : MonoBehaviour
+{
 
-	// half singleton
-	public static AppController Instance { get; private set; }
-	void Awake() {
-		Instance = this;
-		DontDestroyOnLoad (gameObject);
-	}
+    // simple event
+    public System.Action onInitialized = delegate { };
+
+    // half singleton
+    public static AppController Instance { get; private set; }
+    void Awake()
+    {
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
 
-	// Use this for initialization
-	void Start () {
-		//
-		LoadSetup ();
-	}
+    // Use this for initialization
+    void Start()
+    {
+        //
+        LoadSetup();
+    }
 
-	//
-	void LoadSetup() {
-		#if LOG_ENGINE
-		Debug.Log("AppController : Load Specific Setup");
-		#endif
+    //
+    void LoadSetup()
+    {
+#if LOG_ENGINE
+        Debug.Log("AppController : Load Specific Setup");
+#endif
 
-		//
-		StartCoroutine (LoadSetupCoroutine ());
-	}
+        //
+        StartCoroutine(LoadSetupCoroutine());
+    }
 
-	//
-	IEnumerator LoadSetupCoroutine() {
+    //
+    IEnumerator LoadSetupCoroutine()
+    {
 
-		#if LOG_ENGINE
-		Debug.Log("AppController : Load Async Setup");
-		#endif
+#if LOG_ENGINE
+        Debug.Log("AppController : Load Async Setup");
+#endif
 
-		// TU POWINNO SIE CALY ASYNC TRZYMAC W LADOWANIU
+        // TU POWINNO SIE CALY ASYNC TRZYMAC W LADOWANIU
 
-		yield return new WaitForEndOfFrame ();
-		// 
-		OnInitialized ();
+        yield return new WaitForEndOfFrame();
+        // 
+        OnInitialized();
 
-		#if LOG_ENGINE
-		Debug.Log("AppController : Load Menu Scene");
-		#endif
+#if LOG_ENGINE
+        Debug.Log("AppController : Load Menu Scene");
+#endif
 
-		SceneLoadingController.Instance.LoadScene(GameScene.Menu);
-	}
-		
-	//
-	void OnInitialized() {
-		#if LOG_ENGINE
-		Debug.Log("AppController : Call OnInitialized Event");
-		#endif
+        SceneLoadingController.Instance.LoadScene(GameScene.Menu, true);
+    }
 
-		onInitialized ();
-	}
+    //
+    void OnInitialized()
+    {
+#if LOG_ENGINE
+        Debug.Log("AppController : Call OnInitialized Event");
+#endif
+
+        onInitialized();
+    }
 }

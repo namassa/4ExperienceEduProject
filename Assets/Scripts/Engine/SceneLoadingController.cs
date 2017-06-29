@@ -47,7 +47,7 @@ public class SceneLoadingController : MonoBehaviour {
         {
             Scene sceneToUnload = SceneManager.GetActiveScene();
             AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(sceneToUnload.name);
-            while (!unloadScene.isDone)
+            while (unloadScene != null && !unloadScene.isDone)
             {
                 yield return new WaitForEndOfFrame();
             }
@@ -57,7 +57,7 @@ public class SceneLoadingController : MonoBehaviour {
 
         AsyncOperation loading = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
 
-        while(!loading.isDone)
+        while(loading != null && !loading.isDone)
         {
             Progress = loading.progress;
             yield return new WaitForEndOfFrame();
