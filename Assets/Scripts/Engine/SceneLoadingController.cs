@@ -35,6 +35,7 @@ public class SceneLoadingController : MonoBehaviour {
         // TODO Code scene loading with unloading current scene
         StartCoroutine(SceneLoad(GameScene.Menu));
 	}
+
     public void LoadScene(GameScene scene, bool withUnload)
     {
         StartCoroutine(SceneLoad(scene, withUnload));
@@ -71,6 +72,8 @@ public class SceneLoadingController : MonoBehaviour {
 		switch (scene) {
 		case GameScene.Menu:
 			return "002_Menu";
+            case GameScene.Factory:
+                return "003_Factory";
             default:
 			return string.Empty;
 		}
