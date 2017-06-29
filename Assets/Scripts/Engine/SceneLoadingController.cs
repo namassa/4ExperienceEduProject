@@ -1,77 +1,81 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Wojciech Sęk
-// knotidm@gmail.com
-// 26.06.2017
+
+// dsiemienik@gmail.com   27.06.2017
+
+// karol@4experience.co
 // responsible for changing scenes and broadcasting progress and isDone events
-public class SceneLoadingController : MonoBehaviour
-{
-    private bool IsLoading { get; set; }
-    private float Progress { get; set; }
-    private Action<GameScene> OnLoadingComplete = delegate { };
-    private Action<GameScene> OnLoadingBegin = delegate { };
+public class SceneLoadingController : MonoBehaviour {
 
-    public static SceneLoadingController Instance { get; private set; }
-    void Awake()
+	// half singleton
+	public static SceneLoadingController Instance { get; private set; }
+
+	void Awake() {
+		Instance = this;
+		DontDestroyOnLoad (gameObject);
+	}
+
+	//
+	public bool IsLoading { get; private set; }
+	public float Progress { get; private set; }
+	public System.Action<GameScene> onLoadingComplete = delegate { };
+	public System.Action<GameScene> onLoadingBegin = delegate { };
+
+	//
+	void Start() {
+		IsLoading = false;
+		Progress = 0f;
+	}
+
+	//
+	public void LoadMainScene(GameScene scene) {
+        // TODO Code scene loading with unloading current scene
+        StartCoroutine(SceneLoad(GameScene.Menu));
+	}
+
+    public void LoadScene(GameScene scene, bool withUnload)
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        StartCoroutine(SceneLoad(scene, withUnload));
     }
 
-    void Start()
+    IEnumerator SceneLoad(GameScene scene, bool withUnload = false)
     {
-        IsLoading = false;
-        Progress = 0f;
-    }
-
-    public void LoadScene(GameScene gameScene)
-    {
-        StartCoroutine(LoadSceneAsync(gameScene));
-    }
-
-    private IEnumerator LoadSceneAsync(GameScene gameScene)
-    {
-        OnLoadingBegin(gameScene);
-
-        AsyncOperation unloadSceneAsync = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
-
-        while (unloadSceneAsync != null && !unloadSceneAsync.isDone)
+        if(withUnload)
         {
+            Scene sceneToUnload = SceneManager.GetActiveScene();
+            AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(sceneToUnload.name);
+            while (!unloadScene.isDone)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        string sceneToLoad = GetSceneName(scene);
+
+        AsyncOperation loading = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+
+        while(!loading.isDone)
+        {
+            Progress = loading.progress;
             yield return new WaitForEndOfFrame();
         }
 
-        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(GetSceneName(gameScene), LoadSceneMode.Additive);
-
-        IsLoading = true;
-
-        while (loadSceneAsync != null && !loadSceneAsync.isDone)
-        {
-            Progress = loadSceneAsync.progress;
-            yield return new WaitForEndOfFrame();
-        }
-
-        IsLoading = false;
-
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(GetSceneName(gameScene)));
-
-        OnLoadingComplete(gameScene);
+        Scene loadedScene = SceneManager.GetSceneByName(sceneToLoad);
+        SceneManager.SetActiveScene(loadedScene);
     }
 
-    private string GetSceneName(GameScene scene)
-    {
-        switch (scene)
-        {
-            case GameScene.Menu:
-                return "002_Menu";
-            case GameScene.Stage1:
-                return "003_Stage1";
-            case GameScene.Stage2:
-                return "004_Stage2";
+	//
+	private string GetSceneName(GameScene scene) {
+		switch (scene) {
+		case GameScene.Menu:
+			return "002_Menu";
+            case GameScene.Factory:
+                return "003_Factory";
             default:
-                return string.Empty;
-        }
-    }
+			return string.Empty;
+		}
+	}
 }
