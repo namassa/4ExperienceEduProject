@@ -9,8 +9,8 @@ public class FactoryController : MonoBehaviour
         _monsterFactory = FindObjectOfType<MonsterFactory>();
     }
 
-    public void SpawnMonsters(MonsterType monsterType)
+    public void RespawnMonsterByType(MonsterType monsterType)
     {
-        _monsterFactory.RespawnMonster(monsterType);
+        _monsterFactory.RespawnMonsterByType(monsterType);
     }
 }

@@ -13,15 +13,15 @@ public class InputController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            _monsterFactoryController.SpawnMonsters(MonsterType.Orc);
+            _monsterFactoryController.RespawnMonsterByType(MonsterType.Orc);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            _monsterFactoryController.SpawnMonsters(MonsterType.Ogre);
+            _monsterFactoryController.RespawnMonsterByType(MonsterType.Ogre);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            _monsterFactoryController.SpawnMonsters(MonsterType.Goblin);
+            _monsterFactoryController.RespawnMonsterByType(MonsterType.Goblin);
         }
     }
 }
