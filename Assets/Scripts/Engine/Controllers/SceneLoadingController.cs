@@ -1,40 +1,32 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public class SceneLoadingController : MonoBehaviour
+{
+    public bool IsLoading { get; private set; }
+    public float Progress { get; private set; }
+    public System.Action<GameScene> onLoadingComplete = delegate { };
+    public System.Action<GameScene> onLoadingBegin = delegate { };
 
-// dsiemienik@gmail.com   27.06.2017
+    public static SceneLoadingController Instance { get; private set; }
 
-// karol@4experience.co
-// responsible for changing scenes and broadcasting progress and isDone events
-public class SceneLoadingController : MonoBehaviour {
+    void Awake()
+    {
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
-	// half singleton
-	public static SceneLoadingController Instance { get; private set; }
+    void Start()
+    {
+        IsLoading = false;
+        Progress = 0f;
+    }
 
-	void Awake() {
-		Instance = this;
-		DontDestroyOnLoad (gameObject);
-	}
-
-	//
-	public bool IsLoading { get; private set; }
-	public float Progress { get; private set; }
-	public System.Action<GameScene> onLoadingComplete = delegate { };
-	public System.Action<GameScene> onLoadingBegin = delegate { };
-
-	//
-	void Start() {
-		IsLoading = false;
-		Progress = 0f;
-	}
-
-	//
-	public void LoadMainScene(GameScene scene) {
-        // TODO Code scene loading with unloading current scene
+    public void LoadMainScene(GameScene scene)
+    {
         StartCoroutine(SceneLoad(GameScene.Menu));
-	}
+    }
 
     public void LoadScene(GameScene scene, bool withUnload)
     {
@@ -43,11 +35,11 @@ public class SceneLoadingController : MonoBehaviour {
 
     IEnumerator SceneLoad(GameScene scene, bool withUnload = false)
     {
-        if(withUnload)
+        if (withUnload)
         {
             Scene sceneToUnload = SceneManager.GetActiveScene();
             AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(sceneToUnload.name);
-            while (!unloadScene.isDone)
+            while (unloadScene != null && !unloadScene.isDone)
             {
                 yield return new WaitForEndOfFrame();
             }
@@ -57,7 +49,7 @@ public class SceneLoadingController : MonoBehaviour {
 
         AsyncOperation loading = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
 
-        while(!loading.isDone)
+        while (loading != null && !loading.isDone)
         {
             Progress = loading.progress;
             yield return new WaitForEndOfFrame();
@@ -67,15 +59,16 @@ public class SceneLoadingController : MonoBehaviour {
         SceneManager.SetActiveScene(loadedScene);
     }
 
-	//
-	private string GetSceneName(GameScene scene) {
-		switch (scene) {
-		case GameScene.Menu:
-			return "002_Menu";
+    private string GetSceneName(GameScene scene)
+    {
+        switch (scene)
+        {
+            case GameScene.Menu:
+                return "002_Menu";
             case GameScene.Factory:
                 return "003_Factory";
             default:
-			return string.Empty;
-		}
-	}
+                return string.Empty;
+        }
+    }
 }
