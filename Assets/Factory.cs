@@ -3,6 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// FEEDBACK:
+// karol.ryt@gmail.com
+// 1. Gdzie sa maile i daty jako podpisy
+// 2. Gdzie opisy co realizuja klasy
+// 3. Nie potrzeba nam tu interfejsu;) Wazne ze klasa ma funkcja publiczna
+// 4. Uporządkowac pliki bo sa w root
+// 5. MonsterType bym zmienil w struct ktory zawiera a funkcja fajnie by zwala sie ExecuteCOmmand
+/*
+struct MonsterFactoryCommand {
+	public enum MonsterType;
+	public int count; // itd
+}
+*/
+
 public class Factory :  MonoBehaviour, ICommand
 {
 
