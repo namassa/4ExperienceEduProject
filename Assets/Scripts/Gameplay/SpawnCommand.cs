@@ -7,19 +7,11 @@ using UnityEngine;
 [System.Serializable]
 public class SpawnCommand : CommandBase 
 {
-	[HideInInspector]
-	public EnemyFactory factory;
 	public string enemyPrefabName;
 
 	//
 	public SpawnCommand(string requestedPrefabName) 
 	{
 		enemyPrefabName = requestedPrefabName;
-	}
-
-	//
-	override public void Execute() 
-	{
-		factory.SpawnEnemy (enemyPrefabName);
 	}
 }
