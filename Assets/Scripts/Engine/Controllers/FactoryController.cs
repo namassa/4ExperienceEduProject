@@ -6,11 +6,11 @@ public class FactoryController : MonoBehaviour
 
     private void Awake()
     {
-        _monsterFactory = FindObjectOfType<MonsterFactory>();
+        _monsterFactory = GetComponentInChildren<MonsterFactory>();
     }
 
-    public void RespawnMonsterByType(MonsterType monsterType)
+    public void RespawnMonsterByType(MonsterType monsterType, int count)
     {
-        _monsterFactory.RespawnMonsterByType(monsterType);
+        _monsterFactory.RespawnMonsterByType(monsterType, count);
     }
 }

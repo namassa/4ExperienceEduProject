@@ -2,14 +2,25 @@
 
 public class MonsterFactory : MonoBehaviour
 {
+    public struct Monster
+    {
+        public MonsterType monsterType;
+        public int count;
+    }
+
     [SerializeField] protected GameObject orc;
     [SerializeField] protected GameObject ogre;
     [SerializeField] protected GameObject goblin;
 
-    public void RespawnMonsterByType(MonsterType monsterType)
+    public void RespawnMonsterByType(MonsterType monsterType, int count)
     {
-        var respawnMonsterCommand = FindObjectOfType<RespawnMonsterCommand>();
-        switch (monsterType)
+        var respawnMonsterCommand = GetComponent<RespawnMonsterCommand>();
+
+        Monster monster;
+        monster.monsterType = monsterType;
+        monster.count = count;
+
+        switch (monster.monsterType)
         {
             case MonsterType.Orc:
                 respawnMonsterCommand.MonsterPrefab = orc;
@@ -24,6 +35,10 @@ public class MonsterFactory : MonoBehaviour
                 respawnMonsterCommand.Position = new Vector3(2, 2, 2);
                 break;
         }
-        respawnMonsterCommand.Execute();
+
+        for (int i = 0; i < monster.count; i++)
+        {
+            respawnMonsterCommand.ExecuteCommand();
+        }
     }
 }

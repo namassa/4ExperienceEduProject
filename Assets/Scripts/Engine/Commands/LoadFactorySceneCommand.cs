@@ -2,7 +2,7 @@
 
 public class LoadFactorySceneCommand : MonoBehaviour, ICommand
 {
-    public void Execute()
+    public void ExecuteCommand()
     {
         FindObjectOfType<SceneLoadingController>().LoadScene(GameScene.Factory, true);
     }
