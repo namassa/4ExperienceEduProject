@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// FEEDBACK
+// karol.ryt@gmail.com
+// 1. LINQ jest fajny ale niewydajny
+// 2. tu uzyj Dictonary<string,GameObject> i masz hashtablice co po stringu daje prefaba:)
+
 // jarekdc@gmail.com
 // Holds enemy prefabs and instantiates them
 public class EnemyFactory : MonoBehaviour
