@@ -1,7 +1,5 @@
 ﻿#define EXTENDED_LOG
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // karol.ryt@gmail.com
