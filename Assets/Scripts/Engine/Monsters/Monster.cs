@@ -46,21 +46,33 @@ public class Monster : MonoBehaviour
             _movementSpeed = value;
         }
     }
+    IEnumerator movingCoroutine;
+    Vector3 direction;
+    bool collision;
 
     private void Awake()
     {
         healthPoints = 50;
         damage = 10;
         movementSpeed = 2f;
-        MoveTo();
+        MoveTo(Vector3.zero, false);
     }
 
     //method which moving the object to random position
-    public void MoveTo()
+    public void MoveTo(Vector3 direction, bool collision)
     {
-        Vector3 direction = RandomizeDirection();
-        WhereAmIGoing(direction);
-        StartCoroutine(Moving(direction));
+        if (collision)
+        {
+            this.direction = -direction;
+            //this.direction = new Vector3(-direction.x, 0.5f, -direction.z);
+        }
+        else
+        {
+            this.direction = RandomizeDirection();
+        }
+        //WhereAmIGoing(direction);
+        movingCoroutine = Moving(this.direction);
+        StartCoroutine(movingCoroutine);
     }
 
     private Vector3 RandomizeDirection()
@@ -78,23 +90,26 @@ public class Monster : MonoBehaviour
     {
         while (gameObject.transform.position != direction)
         {
-            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, direction, 0.1f * _movementSpeed);
+            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, direction, 0.08f * _movementSpeed);
             yield return null;
         }
-        MoveTo();
+
+        MoveTo(direction, false);
     }
 
     //mark is trigger
     private void OnTriggerEnter(Collider other)
     {
-        if (tag != other.tag && other.tag != "Plane")
+        if (tag == other.tag)
+        {
+            SayHello();
+            StopCoroutine(movingCoroutine);
+            MoveTo(direction, true);
+        }
+        else
         {
             Debug.Log("doing damage to enemy");
             DoDamage(other);
-        }
-        else if (tag == other.tag)
-        {
-            SayHello();
         }
     }
 
