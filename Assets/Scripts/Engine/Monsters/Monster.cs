@@ -2,47 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goblin : MonoBehaviour, IMonster
+public class Monster : MonoBehaviour
 {
 
+    //Every creature must have some hp points
     int _healthPoints;
     public int healthPoints
     {
         get
         {
-            return this._healthPoints;
+            return _healthPoints;
         }
         set
         {
-            this._healthPoints = value;
+            _healthPoints = value;
         }
     }
 
+    //How many damage moster can deal
     int _damage;
     public int damage
     {
         get
         {
-            return this._damage;
+            return _damage;
         }
         set
         {
-            this._damage = value;
+            _damage = value;
         }
     }
 
+    //Each monster must have some value to know how fast change their position
     float _movementSpeed;
     public float movementSpeed
     {
         get
         {
-            return this._movementSpeed;
+            return _movementSpeed;
         }
         set
         {
-            this._movementSpeed = value;
+            _movementSpeed = value;
         }
     }
+
     private void Awake()
     {
         healthPoints = 50;
@@ -51,11 +55,12 @@ public class Goblin : MonoBehaviour, IMonster
         MoveTo();
     }
 
+    //method which moving the object to random position
     public void MoveTo()
     {
         Vector3 direction = RandomizeDirection();
         WhereAmIGoing(direction);
-        StartCoroutine("Moving", direction);
+        StartCoroutine(Moving(direction));
     }
 
     private Vector3 RandomizeDirection()
@@ -63,6 +68,7 @@ public class Goblin : MonoBehaviour, IMonster
         return new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
     }
 
+    //function tell us where monster is moving at present
     public void WhereAmIGoing(Vector3 direction)
     {
         Debug.Log("i'm going to " + direction.x + " " + direction.y + " " + direction.z);
@@ -81,38 +87,32 @@ public class Goblin : MonoBehaviour, IMonster
     //mark is trigger
     private void OnTriggerEnter(Collider other)
     {
-        if (this.tag != other.tag)
+        if (tag != other.tag && other.tag != "Plane")
         {
             Debug.Log("doing damage to enemy");
             DoDamage(other);
         }
-        else if (this.tag == other.tag)
+        else if (tag == other.tag)
         {
             SayHello();
         }
     }
 
+    //method calls only if enter enemy collider and dealing damage
     public void DoDamage(Collider other)
     {
         //deal damage to enemy
-        other.gameObject.GetComponent<IMonster>().healthPoints -= _damage;
+        other.gameObject.GetComponent<Monster>().healthPoints -= _damage;
     }
 
-    public void DoDamage()
-    {
+    //public void SayHello(Collider other)
+    //{
+    //    Debug.Log("Hello");
+    //}
 
-    }
-
-    public void SayHello(Collider other)
-    {
-        Debug.Log("Hello");
-    }
+    //method calls only if enter friend collider and saying hello
     public void SayHello()
     {
-
-    }
-
-    public void WhereAmIGoing()
-    {
+        Debug.Log("Hello");
     }
 }
