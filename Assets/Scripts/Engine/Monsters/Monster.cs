@@ -104,7 +104,12 @@ public class Monster : MonoBehaviour
     {
         while (gameObject.transform.position != direction)
         {
-            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, direction, 0.05f * _movementSpeed);
+
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, direction, _movementSpeed * Time.deltaTime);
+            //var velocity = 0.1f * _movementSpeed;
+            //float x = Mathf.SmoothDamp(gameObject.transform.position.x, direction.x, ref velocity, 0.3f);
+            //float z = Mathf.SmoothDamp(gameObject.transform.position.z, direction.z, ref velocity, 0.3f);
+            //gameObject.transform.position = new Vector3(x, 0.5f, z);
             yield return null;
         }
 
