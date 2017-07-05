@@ -2,81 +2,95 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// knotidm@gmail.com dsiemienik@gmail.com
+// 05.07.17
+// class defines monster variables and methods
 public class Monster : MonoBehaviour
 {
-
+    public MonsterType monsterType;
     //Every creature must have some hp points
-    int _healthPoints;
-    public int healthPoints
-    {
-        get
-        {
-            return _healthPoints;
-        }
-        set
-        {
-            _healthPoints = value;
-        }
-    }
+    [SerializeField] int _healthPoints;
 
     //How many damage moster can deal
-    int _damage;
-    public int damage
-    {
-        get
-        {
-            return _damage;
-        }
-        set
-        {
-            _damage = value;
-        }
-    }
+    [SerializeField] int _damage;
 
     //Each monster must have some value to know how fast change their position
-    float _movementSpeed;
-    public float movementSpeed
-    {
-        get
-        {
-            return _movementSpeed;
-        }
-        set
-        {
-            _movementSpeed = value;
-        }
-    }
-    IEnumerator movingCoroutine;
-    Vector3 direction;
-    bool collision;
+    [SerializeField] float _movementSpeed;
 
-    private void Awake()
+    public IEnumerator movingCoroutine;
+    public Vector3 direction;
+    public bool collision;
+
+    public void Awake()
     {
-        healthPoints = 50;
-        damage = 10;
-        movementSpeed = 2f;
-        MoveTo(Vector3.zero, false);
+        //healthPoints = 50;
+        //damage = 10;
+        //movementSpeed = 2f;
+        collision = false;
+        MoveCommand moveCommand = GetComponent<MoveCommand>();
+        moveCommand.monster = this;
+        moveCommand.ExecuteCommand();
     }
 
     //method which moving the object to random position
     public void MoveTo(Vector3 direction, bool collision)
     {
+        Vector3 temp = new Vector3(0.0f, 0.5f, 0.0f);
+        string condition;
         if (collision)
         {
-            this.direction = -direction;
+            if (direction.x > 0)
+            {
+                condition = "x+";
+                temp = RandomizeDirection(condition);
+            }
+            if (direction.z > 0)
+            {
+                condition = "z+";
+                temp = RandomizeDirection(condition);
+            }
+            if (direction.x < 0)
+            {
+                condition = "x-";
+                temp = RandomizeDirection(condition);
+            }
+            if (direction.z < 0)
+            {
+                condition = "z-";
+                temp = RandomizeDirection(condition);
+            }
+
+            this.direction = temp;
+            this.direction.y = 0.5f;
+
+
+            //this.direction.x = -direction.x;
+            //this.direction.z = -direction.z;
             //this.direction = new Vector3(-direction.x, 0.5f, -direction.z);
         }
         else
         {
-            this.direction = RandomizeDirection();
+            this.direction = RandomizeDirection("");
         }
+        collision = false;
         //WhereAmIGoing(direction);
         movingCoroutine = Moving(this.direction);
         StartCoroutine(movingCoroutine);
     }
 
-    private Vector3 RandomizeDirection()
+    public Vector3 RandomizeDirection(string condition)
     {
+        switch (condition)
+        {
+            case "x-":
+                return new Vector3(Random.Range(0, 20), 0.5f, Random.Range(-20, 20));
+            case "z-":
+                return new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(0, 20));
+            case "x+":
+                return new Vector3(Random.Range(-20, 0), 0.5f, Random.Range(-20, 20));
+            case "z+":
+                return new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 0));
+        }
         return new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
     }
 
@@ -86,27 +100,34 @@ public class Monster : MonoBehaviour
         Debug.Log("i'm going to " + direction.x + " " + direction.y + " " + direction.z);
     }
 
-    IEnumerator Moving(Vector3 direction)
+    public IEnumerator Moving(Vector3 direction)
     {
         while (gameObject.transform.position != direction)
         {
-            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, direction, 0.08f * _movementSpeed);
+            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, direction, 0.05f * _movementSpeed);
             yield return null;
         }
 
-        MoveTo(direction, false);
+        MoveCommand moveCommand = GetComponent<MoveCommand>();
+        moveCommand.monster = this;
+        moveCommand.ExecuteCommand();
     }
 
     //mark is trigger
     private void OnTriggerEnter(Collider other)
     {
+        collision = true;
         if (tag == other.tag)
         {
             SayHello();
             StopCoroutine(movingCoroutine);
-            MoveTo(direction, true);
+            MoveCommand moveCommand = GetComponent<MoveCommand>();
+            moveCommand.monster = this;
+            moveCommand.ExecuteCommand();
+            CollisionCommand collisionCommand = GetComponent<CollisionCommand>();
+            collisionCommand.ExecuteCommand();
         }
-        else
+        else if (other.tag != "Plane")
         {
             Debug.Log("doing damage to enemy");
             DoDamage(other);
@@ -117,13 +138,8 @@ public class Monster : MonoBehaviour
     public void DoDamage(Collider other)
     {
         //deal damage to enemy
-        other.gameObject.GetComponent<Monster>().healthPoints -= _damage;
+        other.gameObject.GetComponent<Monster>()._healthPoints -= _damage;
     }
-
-    //public void SayHello(Collider other)
-    //{
-    //    Debug.Log("Hello");
-    //}
 
     //method calls only if enter friend collider and saying hello
     public void SayHello()

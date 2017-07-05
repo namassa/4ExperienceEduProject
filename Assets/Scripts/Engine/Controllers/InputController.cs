@@ -2,8 +2,8 @@
 
 public class InputController : MonoBehaviour
 {
-    private FactoryController _monsterFactoryController;
-    [SerializeField] private int numberOfMonstersToRespawn = 1;
+    protected FactoryController _monsterFactoryController;
+    [SerializeField] protected int numberOfMonstersToRespawn = 1;
 
     private void Awake()
     {

@@ -7,6 +7,7 @@ public class RespawnMonsterCommand : MonoBehaviour, ICommand
 
     public void ExecuteCommand()
     {
-        Instantiate(MonsterPrefab, Position, Quaternion.identity);
+        var monster = Instantiate(MonsterPrefab, Position, Quaternion.identity);
+        UIController.monsters.Add(monster);
     }
 }
