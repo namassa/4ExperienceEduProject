@@ -6,6 +6,6 @@ using UnityEngine;
 // Holds an object and information about a potential collission
 public class RandomizePosititonCommand
 {
-    GameObject sender;
-    Vector2 collisionDirection;
+    public GameObject sender;
+    public Vector2 collisionDirection;
 }

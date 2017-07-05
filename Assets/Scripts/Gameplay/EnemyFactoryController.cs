@@ -4,6 +4,7 @@ using UnityEngine;
 
 // kzlukos@gmail.com
 // Recieves spawn commands and passes them to the factory
+// Holds a dictionary of all spawned enemies 
 public class EnemyFactoryController : MonoBehaviour 
 {
 	//
@@ -15,6 +16,7 @@ public class EnemyFactoryController : MonoBehaviour
 
 	//
 	[SerializeField] EnemyFactory factory;
+    List<GameObject> spawnedEnemies = new List<GameObject>();
 
 	//
 	private void Awake() 
@@ -25,7 +27,17 @@ public class EnemyFactoryController : MonoBehaviour
 	//
 	public void PassSpawnCommand(SpawnCommand command) 
 	{
-		factory.SpawnEnemy (command);
+		GameObject spawnedEnemy = factory.SpawnEnemy (command);
+        if (spawnedEnemy != null)
+        {
+            spawnedEnemies.Add(spawnedEnemy);
+        }
 	}
 
+    //
+    private void RemoveEnemyFromList(GameObject enemy)
+    {
+        // should also destroy the enemy gameObject?
+        spawnedEnemies.Remove(enemy);
+    }
 }

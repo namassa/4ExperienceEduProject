@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 // jarekdc@gmail.com
-// Holds enemy prefabs and instantiates them
+// Holds enemy prefabs and instantiates them at a random position on the map
 public class EnemyFactory : MonoBehaviour
 {
     // could use a dictonary if we have more enemies
@@ -13,6 +13,9 @@ public class EnemyFactory : MonoBehaviour
     [SerializeField]
     private GameObject[] prefabList;
 	private Dictionary <string, GameObject> _enemyPrefabs;
+
+    [SerializeField]
+    private Map map;
 
 	//
 	void Awake()
@@ -23,17 +26,30 @@ public class EnemyFactory : MonoBehaviour
 	}
 
     //
-	public void SpawnEnemy(SpawnCommand spawnCommand)
+	public GameObject SpawnEnemy(SpawnCommand spawnCommand)
     {
-		
 		GameObject requestedPrefab = _enemyPrefabs [spawnCommand.enemyPrefabName];
         if (requestedPrefab != null)
         {
-            Instantiate(requestedPrefab, transform.position, Quaternion.identity);
+            GameObject insantiatedEnemy = Instantiate(requestedPrefab, GetRandomSpawnPosition(requestedPrefab), Quaternion.identity);
+            return insantiatedEnemy;
         }
         else
         {
 			Debug.LogWarning("requested prefab not found, name: " + spawnCommand.enemyPrefabName);
+            return null;
         }
+    }
+
+    //
+    Vector3 GetRandomSpawnPosition(GameObject requestedPrefab)
+    {
+        Vector3 spawnPosition;
+        Vector2 mapRandomPoint = map.GetRandomFreePoint();
+        spawnPosition.x = mapRandomPoint.x;
+        spawnPosition.y = requestedPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.extents.y * requestedPrefab.transform.localScale.y;
+        spawnPosition.z = mapRandomPoint.y;
+
+        return spawnPosition;
     }
 }
