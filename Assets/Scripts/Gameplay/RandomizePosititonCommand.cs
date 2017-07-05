@@ -7,5 +7,5 @@ using UnityEngine;
 public class RandomizePosititonCommand
 {
     public GameObject sender;
-    public Vector2 collisionDirection;
+    public Vector3 collisionDirection;
 }

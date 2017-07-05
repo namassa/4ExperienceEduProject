@@ -20,15 +20,22 @@ public class Map : MonoBehaviour
         createdMap.transform.localScale = new Vector3(mapLength / 10, 1f, mapWidth / 10);
     }
 
+	//
+	public Vector2 GetRandomPoint()
+	{
+		return new Vector2(Random.Range(-mapLength / 2, mapLength / 2), Random.Range(-mapWidth / 2, mapWidth / 2));
+	}
+
     //
-    public Vector2 GetRandomPoint(Vector2 collisionDirection)
+	public Vector2 GetRandomPoint(Vector3 direction, Vector3 currPosition)
     {
-        if (collisionDirection.Equals(Vector2.zero))
+        if (direction.Equals(Vector3.zero))
         {
-            return new Vector2(Random.Range(-mapLength / 2, mapLength / 2), Random.Range(-mapWidth / 2, mapWidth / 2));
+			return GetRandomPoint();
         }
         else
         {
+			// TODO get a new point in the opposite direction
             return Vector2.zero;
         }
     }
@@ -36,23 +43,23 @@ public class Map : MonoBehaviour
     //
     public Vector2 GetRandomFreePoint()
     {
-        Vector2 randomPoint;
+		Vector2 randomPoint;
         int freePointChecks = 0;
         do
         {
             freePointChecks++;
-            if (freePointChecks == 100)
+            if (freePointChecks == 200)
             {
                 Debug.LogWarning("Can't find a free spot on the map! Returning Vector2.zero!");
                 return Vector2.zero;
             }
 
-            randomPoint = new Vector2(Random.Range(-mapLength / 2, mapLength / 2), Random.Range(-mapWidth / 2, mapWidth / 2));
+			randomPoint = GetRandomPoint();
         } while (!IsTargetPointFree(randomPoint));
 
         return randomPoint;
     }
-
+		
     //
     private bool IsTargetPointFree(Vector2 randomPoint)
     {

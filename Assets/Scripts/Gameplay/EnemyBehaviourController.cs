@@ -20,15 +20,16 @@ public class EnemyBehaviourController : MonoBehaviour
     //
     public void PassRandomizePositionCommand(RandomizePosititonCommand cmd)
     {
-        Vector2 newPoint = map.GetRandomPoint(cmd.collisionDirection);
+		Vector2 newPoint = map.GetRandomPoint(cmd.collisionDirection, cmd.sender.transform.transform.position);
 
-        if (cmd.collisionDirection == Vector2.zero)
+        if (cmd.collisionDirection == Vector3.zero)
         {
             // cmd.sender. moveTo(newPoint)
         }
         else
         {
-            // cmd.sender. greetAndMove(newPoint)
+			// cmd.sender. greet ()
+			// cmd.sender. moveTo(newPoint)
         }
     }
 }
