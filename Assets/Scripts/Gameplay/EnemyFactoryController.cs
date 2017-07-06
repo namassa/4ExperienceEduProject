@@ -4,7 +4,6 @@ using UnityEngine;
 
 // kzlukos@gmail.com
 // Recieves spawn commands and passes them to the factory
-// Holds a dictionary of all spawned enemies 
 public class EnemyFactoryController : MonoBehaviour 
 {
 	//
