@@ -2,29 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum UnitState 
-{
-	Idle,
-	Moving,
-	PerformingAction
-}
 
 // kzlukos@gmail.com
-// Holds an information about unit's state
+// Handles UnitCommands and holds an information about unit's state
 public class UnitController : MonoBehaviour {
 
-	public UnitState State { get; private set; }
+	private UnitLocomotion _unitLocomotion;
+	private IUnitActions _unitActions;
 
 	//
 	void Start()
 	{
-		State = UnitState.Idle;
+		_unitLocomotion = GetComponent<UnitLocomotion> ();
+		_unitActions = GetComponent<IUnitActions> ();
+		PassUnitCommand (new RandomizePosititonCommand ());
 	}
 
 	//
-	private void OnDestinationReachedHandler()
+	public void PassUnitCommand(UnitCommand command)
 	{
-		var cmd = new RandomizePosititonCommand (gameObject, Vector3.zero);
-		EnemyBehaviourController.Instance.PassRandomizePositionCommand (cmd);
+		switch (command.Type) 
+		{
+		case UnitCommandType.Repath:
+			Vector3 newTargetPosition = MapManager.Instance.Map.GetRandomPoint ();
+			if(_unitLocomotion != null)
+				_unitLocomotion.SetTargetPosition (newTargetPosition);
+			break;
+
+		case UnitCommandType.PerformAction:
+			break;
+		}
+
 	}
+
 }

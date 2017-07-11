@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// kzlukos@gmail.com 09.07.2017
+// Vector3 instead of Vector2
 // jarekdc@gmail.com
 // Creates a plane for the level's ground and holds methods that return a random or a random free point from it
 public class Map : MonoBehaviour
@@ -21,13 +23,13 @@ public class Map : MonoBehaviour
     }
 
 	//
-	public Vector2 GetRandomPoint()
+	public Vector3 GetRandomPoint()
 	{
-		return new Vector2(Random.Range(-mapLength / 2, mapLength / 2), Random.Range(-mapWidth / 2, mapWidth / 2));
+		return new Vector3(Random.Range(-mapLength / 2, mapLength / 2), 0f, Random.Range(-mapWidth / 2, mapWidth / 2));
 	}
 
     //
-	public Vector2 GetRandomPoint(Vector3 direction, Vector3 currPosition)
+	public Vector3 GetRandomPoint(Vector3 direction, Vector3 currPosition)
     {
         if (direction.Equals(Vector3.zero))
         {
@@ -41,9 +43,9 @@ public class Map : MonoBehaviour
     }
 
     //
-    public Vector2 GetRandomFreePoint()
+    public Vector3 GetRandomFreePoint()
     {
-		Vector2 randomPoint;
+		Vector3 randomPoint;
         int freePointChecks = 0;
         do
         {
@@ -61,9 +63,9 @@ public class Map : MonoBehaviour
     }
 		
     //
-    private bool IsTargetPointFree(Vector2 randomPoint)
+    private bool IsTargetPointFree(Vector3 randomPoint)
     {
-        Collider[] colliders = Physics.OverlapSphere(new Vector3(randomPoint.x, 0f, randomPoint.y), freePointCheckRadius);
+		Collider[] colliders = Physics.OverlapSphere(randomPoint, freePointCheckRadius);
         if (colliders.Length > 1)
             return false;
         else

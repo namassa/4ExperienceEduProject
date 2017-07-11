@@ -104,7 +104,6 @@ public class SceneLoadingController : MonoBehaviour
             if (asyncLoadOp.progress == 0.9f)
             {
                 asyncLoadOp.allowSceneActivation = true;
-                onLoadingComplete(scene);
                 IsLoading = false;
             }
 
@@ -113,5 +112,6 @@ public class SceneLoadingController : MonoBehaviour
 
         Scene loadedScene = SceneManager.GetSceneByName(GetSceneName(scene));
         SceneManager.SetActiveScene(loadedScene);
+		onLoadingComplete(scene);
     }
 }

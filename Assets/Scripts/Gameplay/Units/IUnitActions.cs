@@ -4,9 +4,9 @@ using UnityEngine;
 
 // kzlukos@gmail.com
 // 
-public abstract class UnitActions : MonoBehaviour {
+public interface IUnitActions {
 
 	//
-	public virtual void Greet() {}
+	void Greet();
 
 }

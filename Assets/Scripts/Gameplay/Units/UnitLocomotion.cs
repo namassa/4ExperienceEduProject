@@ -4,28 +4,34 @@ using UnityEngine;
 
 // kzlukos@gmail.com
 // Executes movment towards target position
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(UnitController))]
 public class UnitLocomotion : MonoBehaviour 
 {
-	public System.Action onDestinationReached;
-
 	[Header("Speed parameters")]
 	[SerializeField]
-	private float movementSpeed;
+	private float movementSpeed = 1;
 	[SerializeField]
-	private float rotationSpeed;
+	private float rotationSpeed = 1;
 
+	[Header("Movement parameters")]
 	[SerializeField]
 	private float destinationReachedTolerance = 0.1f;
+	[SerializeField]
+	private float startMovingAngle = 30f;
 
 	//
+	private UnitController _unitController;
+	private Rigidbody _rigidbody;
+
 	private Vector3? _targetPosition;
-	private CharacterController _characterController;
+	private float _rotationSpeedFactor = 20f;
+
 
 	//
 	void Start()
 	{
-		_characterController = GetComponent<CharacterController> ();
+		_unitController = GetComponent<UnitController> ();
+		_rigidbody = GetComponent<Rigidbody> ();
 	}
 
 	//
@@ -39,24 +45,33 @@ public class UnitLocomotion : MonoBehaviour
 	{
 		if (_targetPosition != null) 
 		{
-			Vector3 targetDirection = (transform.position - (Vector3)_targetPosition);
+			Vector3 targetDirection = ((Vector3)_targetPosition - transform.position);
+			targetDirection.y = 0f;
+
+			Quaternion targetRotation = Quaternion.LookRotation (targetDirection.normalized);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.smoothDeltaTime);
+
+			if(Vector3.Angle(transform.forward, targetDirection) < startMovingAngle)
+				transform.position += (transform.forward * movementSpeed * Time.smoothDeltaTime);
 
 			//Destination reached
 			if (targetDirection.magnitude < destinationReachedTolerance) 
 			{
 				_targetPosition = null;
-				onDestinationReached ();
+				_unitController.PassUnitCommand (new RandomizePosititonCommand ());
 				return;
 			}
-				
-			Quaternion targetRotation = Quaternion.LookRotation (targetDirection);
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.smoothDeltaTime);
-
-			if(Vector3.Angle(transform.forward, targetDirection) < 30)
-				_characterController.SimpleMove (targetDirection.normalized * movementSpeed);
 
 		}
 	}
-
+		
+	#if UNITY_EDITOR
+	void OnDrawGizmos()
+	{
+		Gizmos.DrawLine (transform.position, transform.position + transform.forward * 3f);
+		if (_targetPosition != null)
+			Gizmos.DrawWireSphere ((Vector3)_targetPosition, 0.5f);
+	}
+	#endif
 
 }

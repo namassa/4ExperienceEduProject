@@ -4,6 +4,7 @@ using UnityEngine;
 
 // jarekdc@gmail.com
 // Base class for command object
+
 [System.Serializable]
 public abstract class CommandBase 
 {
