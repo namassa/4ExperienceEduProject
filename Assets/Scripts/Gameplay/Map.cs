@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // kzlukos@gmail.com 09.07.2017
-// Vector3 instead of Vector2
+// Vector3 instead of Vector2, GetRandomPoint(Vector3 direction, Vector3 position) implementation added, Bounds instead width and length
 // jarekdc@gmail.com
 // Creates a plane for the level's ground and holds methods that return a random or a random free point from it
 public class Map : MonoBehaviour
 {
     [SerializeField]
-    private float mapLength;
-    [SerializeField]
-    private float mapWidth;
+	private Bounds bounds;
     [SerializeField]
     private float freePointCheckRadius;
 
@@ -19,13 +17,14 @@ public class Map : MonoBehaviour
     void Awake()
     {
         GameObject createdMap = GameObject.CreatePrimitive(PrimitiveType.Plane); 
-        createdMap.transform.localScale = new Vector3(mapLength / 10, 1f, mapWidth / 10);
+		createdMap.transform.position = bounds.center;
+		createdMap.transform.localScale = new Vector3(bounds.extents.z*2f / 10, 1f, bounds.extents.x*2f / 10);
     }
 
 	//
 	public Vector3 GetRandomPoint()
 	{
-		return new Vector3(Random.Range(-mapLength / 2, mapLength / 2), 0f, Random.Range(-mapWidth / 2, mapWidth / 2));
+		return new Vector3(Random.Range(-bounds.extents.z, bounds.extents.z) + bounds.center.z, 0f, Random.Range(-bounds.extents.x, bounds.extents.x) + bounds.center.x);
 	}
 
     //
@@ -37,8 +36,18 @@ public class Map : MonoBehaviour
         }
         else
         {
-			// TODO get a new point in the opposite direction
-            return Vector3.zero;
+			direction.y = 0f;
+			direction = Quaternion.Euler(0f, Random.Range(-15f, 15f), 0f) * direction;
+			Ray ray = new Ray (position, -direction);
+
+			float distance;
+			if (bounds.IntersectRay (ray, out distance)) 
+			{
+				ray.direction *= -1f;
+				return ray.GetPoint (Random.Range (0f, -distance));
+			}
+			return Vector3.zero;
+
         }
     }
 
@@ -71,4 +80,15 @@ public class Map : MonoBehaviour
         else
             return true;
     }
+
+	//
+	#if UNITY_EDITOR
+	void OnDrawGizmos()
+	{
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireCube (bounds.center, bounds.extents * 2f);
+	}
+	#endif
+
+
 }

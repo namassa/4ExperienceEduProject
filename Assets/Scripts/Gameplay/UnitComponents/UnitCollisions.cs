@@ -17,14 +17,16 @@ public class UnitCollisions : MonoBehaviour
 		_layer = LayerMask.NameToLayer ("Units");
 	}
 
-	//
+	//Different implementation for different units?
 	void OnCollisionEnter(Collision collision) 
 	{
-
 		if (collision.gameObject.layer == _layer) 
 		{
-			var cmd = new RandomizePosititonCommand (transform.position - collision.transform.position);
-			_unitController.PassUnitCommand (cmd);
+			var greetCmd = new ActionCommand (ActionType.Greet);
+			var repathCmd = new RandomizePosititonCommand (transform.position - collision.transform.position);
+
+			_unitController.PassUnitCommand (greetCmd);
+			_unitController.PassUnitCommand (repathCmd);
 		}
 	}
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // kzlukos@gmail.com
-// Spawn command class accepting prefab and factory parameters
+// Spawn command containing prefab name
 [System.Serializable]
 public class SpawnCommand : CommandBase 
 {

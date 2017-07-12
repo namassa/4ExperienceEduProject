@@ -11,12 +11,13 @@ public class RandomizePosititonCommand : UnitCommand
 	public Vector3 direction;
 
 	//
-	public RandomizePosititonCommand (Vector3 v) : base(UnitCommandType.Repath)
+	public RandomizePosititonCommand (Vector3 v)
 	{
 		direction = new Vector2 (v.x, v.y);
 	}
 
-	public RandomizePosititonCommand () : base(UnitCommandType.Repath)
+	//
+	public RandomizePosititonCommand ()
 	{
 		direction = new Vector2 (0f, 0f);
 	}
