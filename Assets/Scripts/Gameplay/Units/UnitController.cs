@@ -18,18 +18,23 @@ public class UnitController : MonoBehaviour {
 		PassUnitCommand (new RandomizePosititonCommand ());
 	}
 
+
 	//
 	public void PassUnitCommand(UnitCommand command)
 	{
 		switch (command.Type) 
 		{
 		case UnitCommandType.Repath:
-			Vector3 newTargetPosition = MapManager.Instance.Map.GetRandomPoint ();
+			Vector3 direction = ((RandomizePosititonCommand)command).direction;
+			Vector3 newTargetPosition = MapManager.Instance.Map.GetRandomPoint (direction, transform.position);
+
 			if(_unitLocomotion != null)
 				_unitLocomotion.SetTargetPosition (newTargetPosition);
 			break;
 
+
 		case UnitCommandType.PerformAction:
+			//string actionType = ((command)command).direction;
 			break;
 		}
 

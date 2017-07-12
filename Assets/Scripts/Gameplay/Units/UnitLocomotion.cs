@@ -22,10 +22,7 @@ public class UnitLocomotion : MonoBehaviour
 	//
 	private UnitController _unitController;
 	private Rigidbody _rigidbody;
-
 	private Vector3? _targetPosition;
-	private float _rotationSpeedFactor = 20f;
-
 
 	//
 	void Start()

@@ -45,10 +45,10 @@ public class EnemyFactory : MonoBehaviour
     Vector3 GetRandomSpawnPosition(GameObject requestedPrefab)
     {
         Vector3 spawnPosition;
-        Vector2 mapRandomPoint = map.GetRandomFreePoint();
+        Vector3 mapRandomPoint = map.GetRandomFreePoint();
         spawnPosition.x = mapRandomPoint.x;
         spawnPosition.y = requestedPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.extents.y * requestedPrefab.transform.localScale.y;
-        spawnPosition.z = mapRandomPoint.y;
+        spawnPosition.z = mapRandomPoint.z;
 
         return spawnPosition;
     }

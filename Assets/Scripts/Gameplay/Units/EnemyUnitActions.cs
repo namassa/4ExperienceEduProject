@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyUnitActions : MonoBehaviour {
+public class EnemyUnitActions : IUnitActions {
 
-	// Use this for initialization
-	void Start () {
-		
+	public void Greet() {
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

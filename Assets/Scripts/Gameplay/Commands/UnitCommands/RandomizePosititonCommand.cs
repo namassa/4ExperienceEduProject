@@ -8,7 +8,7 @@ using UnityEngine;
 // Holds an object and information about a potential collission
 public class RandomizePosititonCommand : UnitCommand
 {
-	public Vector2 direction;
+	public Vector3 direction;
 
 	//
 	public RandomizePosititonCommand (Vector3 v) : base(UnitCommandType.Repath)

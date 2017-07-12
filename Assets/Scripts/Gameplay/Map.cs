@@ -29,7 +29,7 @@ public class Map : MonoBehaviour
 	}
 
     //
-	public Vector3 GetRandomPoint(Vector3 direction, Vector3 currPosition)
+	public Vector3 GetRandomPoint(Vector3 direction, Vector3 position)
     {
         if (direction.Equals(Vector3.zero))
         {
@@ -38,7 +38,7 @@ public class Map : MonoBehaviour
         else
         {
 			// TODO get a new point in the opposite direction
-            return Vector2.zero;
+            return Vector3.zero;
         }
     }
 
@@ -53,7 +53,7 @@ public class Map : MonoBehaviour
             if (freePointChecks == 200)
             {
                 Debug.LogWarning("Can't find a free spot on the map! Returning Vector2.zero!");
-                return Vector2.zero;
+                return Vector3.zero;
             }
 
 			randomPoint = GetRandomPoint();
