@@ -5,8 +5,8 @@ using UnityEditor;
 
 // jarekdc@gmail.com
 // Scriptable object editor
-[CustomEditor(typeof(NPCBehaviour))]
-public class NPCBehaviourEditor : Editor
+[CustomEditor(typeof(CharacterBehaviour))]
+public class CharacterBehaviourEditor : Editor
 {
     //
     public override void OnInspectorGUI()

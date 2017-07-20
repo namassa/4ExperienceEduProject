@@ -7,13 +7,11 @@ using UnityEngine;
 [RequireComponent(typeof(UnitController))]
 public class UnitLocomotion : MonoBehaviour 
 {
-	[Header("Speed parameters")]
+	[Header("Movement parameters")]
 	[SerializeField]
 	private float movementSpeed = 1;
 	[SerializeField]
 	private float rotationSpeed = 1;
-
-	[Header("Movement parameters")]
 	[SerializeField]
 	private float destinationReachedTolerance = 0.1f;
 	[SerializeField]

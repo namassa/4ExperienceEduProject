@@ -5,8 +5,8 @@ using UnityEngine;
 // jarekdc@gmail.com
 // Scriptable object to hold AI parameters
 
-[CreateAssetMenu(fileName = "NPCBehaviour", menuName = "NPCBehaviour", order = 1)]
-public class NPCBehaviour : ScriptableObject
+[CreateAssetMenu(fileName = "CharacterBehaviour", menuName = "CharacterBehaviour", order = 1)]
+public class CharacterBehaviour : ScriptableObject
 {
     public int characterCourage;
 }
