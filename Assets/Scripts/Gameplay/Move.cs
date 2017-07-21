@@ -14,6 +14,7 @@ public class Move : ScriptableObject
             gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, direction, movementSpeed * Time.deltaTime);
             yield return null;
         }
+
         if (gameObject.transform.position == direction)
         {
             isMoving = false;

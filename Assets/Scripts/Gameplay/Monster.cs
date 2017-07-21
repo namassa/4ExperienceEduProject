@@ -8,6 +8,7 @@ public class Monster : NPC
 {
     public MonsterType monsterType;
     public IEnumerator movingCoroutine;
+    [SerializeField] protected Move move;
 
     public void Awake()
     {

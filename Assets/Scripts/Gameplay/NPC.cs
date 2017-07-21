@@ -3,7 +3,6 @@
 public abstract class NPC : MonoBehaviour
 {
     [SerializeField] protected Character character;
-    [SerializeField] protected Move move;
     [SerializeField] protected float movementSpeed;
     [SerializeField] protected int health;
     [SerializeField] protected int damage;
