@@ -10,35 +10,37 @@ using System.Linq;
 public class UIController : InputController
 {
     public static List<GameObject> monsters;
+    public static List<GameObject> characters;
 
     private void Update()
     {
         monsters = GameObject.FindGameObjectsWithTag("Monster").ToList();
+        characters = GameObject.FindGameObjectsWithTag("Character").ToList();
     }
 
     public void RespawnOrc()
     {
-        _factoryController.RespawnMonsterByType(MonsterType.Orc, numberOfMonstersToRespawn);
+        _factoryController.RespawnMonstersByType(MonsterType.Orc, numberOfObjectsToRespawn);
     }
 
     public void RespawnOgre()
     {
-        _factoryController.RespawnMonsterByType(MonsterType.Ogre, numberOfMonstersToRespawn);
+        _factoryController.RespawnMonstersByType(MonsterType.Ogre, numberOfObjectsToRespawn);
     }
 
     public void RespawnGoblin()
     {
-        _factoryController.RespawnMonsterByType(MonsterType.Goblin, numberOfMonstersToRespawn);
+        _factoryController.RespawnMonstersByType(MonsterType.Goblin, numberOfObjectsToRespawn);
     }
 
     public void RespawnVillager()
     {
-        _factoryController.RespawnCharacterByType(CharacterTypes.Villager, numberOfMonstersToRespawn);
+        _factoryController.RespawnCharactersByType(CharacterType.Villager, numberOfObjectsToRespawn);
     }
 
     public void RespawnHero()
     {
-        _factoryController.RespawnCharacterByType(CharacterTypes.Hero, numberOfMonstersToRespawn);
+        _factoryController.RespawnCharactersByType(CharacterType.Hero, numberOfObjectsToRespawn);
     }
 
     public void DeleteOrc()
@@ -57,5 +59,17 @@ public class UIController : InputController
     {
         GameObject monster = monsters.FirstOrDefault(x => x.GetComponent<Monster>().monsterType == MonsterType.Goblin);
         Destroy(monster);
+    }
+
+    public void DeleteVillager()
+    {
+        GameObject character = characters.FirstOrDefault(x => x.GetComponent<Villager>().characterType == CharacterType.Villager);
+        Destroy(character);
+    }
+
+    public void DeleteHero()
+    {
+        GameObject character = characters.FirstOrDefault(x => x.GetComponent<Hero>().characterType == CharacterType.Hero);
+        Destroy(character);
     }
 }

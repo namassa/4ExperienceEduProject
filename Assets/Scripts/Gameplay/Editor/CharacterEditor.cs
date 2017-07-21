@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 
-[CustomEditor(typeof(Move))]
-public class MoveEditor : Editor
+[CustomEditor(typeof(Character))]
+public class CharacterEditor : Editor
 {
     public override void OnInspectorGUI()
     {

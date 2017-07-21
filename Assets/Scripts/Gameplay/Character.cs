@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class Character : ScriptableObject
+[CreateAssetMenu(fileName = "Character")]
+public class Character : ScriptableObject
 {
     public float level;
 }

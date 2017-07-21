@@ -6,36 +6,33 @@ public class CharacterFactory : MonoBehaviour
 {
     public struct Character
     {
-        public CharacterTypes characterType;
-        public int count;
+        public CharacterType CharacterType;
+        public int Count;
     }
 
     [SerializeField] protected GameObject villager;
     [SerializeField] protected GameObject hero;
 
-    public void RespawnCharacterByType(CharacterTypes characterType, int count)
+    public void RespawnCharactersByType(Character character)
     {
-        var respawnCharacterCommand = GetComponent<RespawnCharacterCommand>();
+        GameObject characterGameObject = new GameObject();
+        Vector3 position = Vector3.zero;
 
-        Character character;
-        character.characterType = characterType;
-        character.count = count;
-
-        switch (character.characterType)
+        switch (character.CharacterType)
         {
-            case CharacterTypes.Hero:
-                respawnCharacterCommand.CharacterPrefab = hero;
-                respawnCharacterCommand.Position = new Vector3(Random.Range(15, 20), 0.5f, Random.Range(-15, -20));
+            case CharacterType.Hero:
+                characterGameObject = hero;
+                position = new Vector3(Random.Range(15, 20), 0.5f, Random.Range(-15, -20));
                 break;
-            case CharacterTypes.Villager:
-                respawnCharacterCommand.CharacterPrefab = villager;
-                respawnCharacterCommand.Position = new Vector3(Random.Range(15, 20), 0.5f, Random.Range(-15, -20));
+            case CharacterType.Villager:
+                characterGameObject = villager;
+                position = new Vector3(Random.Range(15, 20), 0.5f, Random.Range(-15, -20));
                 break;
         }
 
-        for (int i = 0; i < character.count; i++)
+        for (int i = 0; i < character.Count; i++)
         {
-            respawnCharacterCommand.ExecuteCommand();
+            Instantiate(characterGameObject, position, Quaternion.identity);
         }
     }
 }

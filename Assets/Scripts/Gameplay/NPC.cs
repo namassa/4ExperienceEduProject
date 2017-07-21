@@ -1,8 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class NPC : MonoBehaviour
 {
-    public abstract void Behaviour();
+    [SerializeField] protected Character character;
+    [SerializeField] protected float movementSpeed;
+    [SerializeField] protected int health;
+    [SerializeField] protected int damage;
+    protected bool collision;
 }

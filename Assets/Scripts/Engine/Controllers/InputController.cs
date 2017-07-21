@@ -3,7 +3,7 @@
 public class InputController : MonoBehaviour
 {
     protected FactoryController _factoryController;
-    [SerializeField] protected int numberOfMonstersToRespawn = 1;
+    [SerializeField] protected int numberOfObjectsToRespawn = 1;
 
     private void Awake()
     {
@@ -14,23 +14,23 @@ public class InputController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            _factoryController.RespawnMonsterByType(MonsterType.Orc, numberOfMonstersToRespawn);
+            _factoryController.RespawnMonstersByType(MonsterType.Orc, numberOfObjectsToRespawn);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            _factoryController.RespawnMonsterByType(MonsterType.Ogre, numberOfMonstersToRespawn);
+            _factoryController.RespawnMonstersByType(MonsterType.Ogre, numberOfObjectsToRespawn);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            _factoryController.RespawnMonsterByType(MonsterType.Goblin, numberOfMonstersToRespawn);
+            _factoryController.RespawnMonstersByType(MonsterType.Goblin, numberOfObjectsToRespawn);
         }
-        if(Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            _factoryController.RespawnCharacterByType(CharacterTypes.Hero, numberOfMonstersToRespawn);
+            _factoryController.RespawnCharactersByType(CharacterType.Hero, numberOfObjectsToRespawn);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            _factoryController.RespawnCharacterByType(CharacterTypes.Villager, numberOfMonstersToRespawn);
+            _factoryController.RespawnCharactersByType(CharacterType.Villager, numberOfObjectsToRespawn);
         }
     }
 }

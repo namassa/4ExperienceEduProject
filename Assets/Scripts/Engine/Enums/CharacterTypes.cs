@@ -1,4 +1,4 @@
-﻿public enum CharacterTypes
+﻿public enum CharacterType
 {
     Villager,
     Hero

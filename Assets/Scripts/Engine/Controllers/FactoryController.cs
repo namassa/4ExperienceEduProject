@@ -11,12 +11,19 @@ public class FactoryController : MonoBehaviour
         _characterFactory = GetComponentInChildren<CharacterFactory>();
     }
 
-    public void RespawnMonsterByType(MonsterType monsterType, int count)
+    public void RespawnMonstersByType(MonsterType monsterType, int count)
     {
-        _monsterFactory.RespawnMonsterByType(monsterType, count);
+        MonsterFactory.Monster monster;
+        monster.MonsterType = monsterType;
+        monster.Count = count;
+        _monsterFactory.RespawnMonstersByType(monster);
     }
-    public void RespawnCharacterByType(CharacterTypes characterType, int count)
+
+    public void RespawnCharactersByType(CharacterType characterType, int count)
     {
-        _characterFactory.RespawnCharacterByType(characterType, count);
+        CharacterFactory.Character character;
+        character.CharacterType = characterType;
+        character.Count = count;
+        _characterFactory.RespawnCharactersByType(character);
     }
 }
