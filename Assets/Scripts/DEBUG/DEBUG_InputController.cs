@@ -26,8 +26,8 @@ public class DEBUG_InputController : MonoBehaviour
 	{
 		foreach (ButtonSpawnCmdBind cmdBind in spawnCmd) 
 		{
-			cmdBind.button.onClick.AddListener (() => EnemyFactoryController.Instance.PassSpawnCommand (new SpawnCommand (cmdBind.cmd.enemyPrefabName)));
-			cmdBind.button.GetComponentInChildren<Text> ().text = "Spawn " + cmdBind.cmd.enemyPrefabName;
+			cmdBind.button.onClick.AddListener (() => FactoriesController.Instance.PassSpawnCommand (new SpawnCommand (cmdBind.cmd.characterPrefabName)));
+			cmdBind.button.GetComponentInChildren<Text> ().text = "Spawn " + cmdBind.cmd.characterPrefabName;
 		}
 	}
 
@@ -36,7 +36,7 @@ public class DEBUG_InputController : MonoBehaviour
 	{
 		foreach (ButtonSpawnCmdBind cmdBind in spawnCmd)
 			if (Input.GetKeyDown (cmdBind.keyCode))
-				EnemyFactoryController.Instance.PassSpawnCommand (new SpawnCommand (cmdBind.cmd.enemyPrefabName)); // Clone() should be used instead new()
+				FactoriesController.Instance.PassSpawnCommand (new SpawnCommand (cmdBind.cmd.characterPrefabName)); // Clone() should be used instead new()
 	}
 }
 
