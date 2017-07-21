@@ -7,11 +7,11 @@ using UnityEngine;
 [System.Serializable]
 public class SpawnCommand : CommandBase 
 {
-	public string enemyPrefabName;
+	public string characterPrefabName;
 
 	//
 	public SpawnCommand(string requestedPrefabName) 
 	{
-		enemyPrefabName = requestedPrefabName;
+		characterPrefabName = requestedPrefabName;
 	}
 }

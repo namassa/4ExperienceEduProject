@@ -4,21 +4,44 @@ using UnityEngine;
 
 // kzlukos@gmail.com 09.07.2017
 // Vector3 instead of Vector2, GetRandomPoint(Vector3 direction, Vector3 position) implementation added, Bounds instead width and length
-// jarekdc@gmail.com
-// Creates a plane for the level's ground and holds methods that return a random or a random free point from it
+// jarekdc@gmail.com 20.07.2017
+// Creates a map and can randomly populate it with chosen objects
 public class Map : MonoBehaviour
 {
     [SerializeField]
 	private Bounds bounds;
     [SerializeField]
     private float freePointCheckRadius;
+    [Header("Objects to Spawn")]
+    public SpawnElements[] objectsToSpawn;
 
+    [System.Serializable]
+    public class SpawnElements
+    {
+        public GameObject elementToSpawn;
+        public int numberOfObjects;
+    }
+    
     //
     void Awake()
     {
         GameObject createdMap = GameObject.CreatePrimitive(PrimitiveType.Plane); 
 		createdMap.transform.position = bounds.center;
 		createdMap.transform.localScale = new Vector3(bounds.extents.z*2f / 10, 1f, bounds.extents.x*2f / 10);
+
+        // TODO solve case when spawn point is outside the map, needs some margin //  getfreewithmargin or overload
+        foreach(SpawnElements obj in objectsToSpawn)
+        {
+            for(int i = 0; i < obj.numberOfObjects; i++)
+            {
+                Vector3 randomPosition = GetRandomFreePoint();
+                Vector3 spawnPosition = new Vector3(randomPosition.x, 
+                    obj.elementToSpawn.GetComponent<MeshFilter>().sharedMesh.bounds.extents.y * obj.elementToSpawn.transform.localScale.y, 
+                    randomPosition.z);
+
+                Instantiate(obj.elementToSpawn, spawnPosition, Quaternion.Euler(0f, Random.Range(0f, 359f), 0f));
+            }
+        }
     }
 
 	//
