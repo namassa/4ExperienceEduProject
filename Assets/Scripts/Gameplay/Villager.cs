@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Villager : NPC {
-
+public class Villager : NPC
+{
+    public CharacterType characterType;
 }

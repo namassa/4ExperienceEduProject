@@ -7,12 +7,15 @@ using UnityEngine;
 public class Monster : NPC
 {
     public MonsterType monsterType;
-    public IEnumerator movingCoroutine;
+    private IEnumerator movingCoroutine;
+    private Vector3 direction;
 
     public void Awake()
     {
         collision = false;
-        StartCoroutine(Moving(gameObject, MoveRandomlyTo(RandomizeDirection(""), collision), movementSpeed));
+        direction = MoveRandomlyTo(RandomizeDirection(""), collision);
+        movingCoroutine = Moving(gameObject, direction, movementSpeed);
+        StartCoroutine(movingCoroutine);
     }
 
     public Vector3 MoveRandomlyTo(Vector3 direction, bool collision)
@@ -71,7 +74,9 @@ public class Monster : NPC
             gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, direction, movementSpeed * Time.deltaTime);
             yield return null;
         }
-        StartCoroutine(Moving(gameObject, MoveRandomlyTo(RandomizeDirection(""), collision), movementSpeed));
+        direction = MoveRandomlyTo(RandomizeDirection(""), collision);
+        movingCoroutine = Moving(gameObject, direction, movementSpeed);
+        StartCoroutine(movingCoroutine);
     }
 
     ////function tell us where monster is moving at present
@@ -81,26 +86,24 @@ public class Monster : NPC
     //}
 
 
-    ////mark as trigger
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    collision = true;
-    //    if (tag == other.tag)
-    //    {
-    //        SayHello();
+    //mark as trigger
+    private void OnTriggerEnter(Collider other)
+    {
+        collision = true;
+        if (tag == other.tag)
+        {
+            //SayHello();
 
-    //        StopCoroutine(moveRandomly.movingCoroutine);
-    //        //moveRandomly.MoveRandomlyTo(gameObject, moveRandomly.direction, _movementSpeed, collision);
-
-    //        //CollisionCommand collisionCommand = GetComponent<CollisionCommand>();
-    //        //collisionCommand.ExecuteCommand();
-    //    }
-    //    else if (other.tag != "Plane")
-    //    {
-    //        Debug.Log("doing damage to enemy");
-    //        DoDamage(other);
-    //    }
-    //}
+            StopCoroutine(movingCoroutine);
+            movingCoroutine = Moving(gameObject, direction, movementSpeed);
+            StartCoroutine(movingCoroutine);
+        }
+        else if (other.tag != "Plane")
+        {
+            Debug.Log("doing damage to enemy");
+            //DoDamage(other);
+        }
+    }
 
     ////method calls only if enter enemy collider and dealing damage
     //public void DoDamage(Collider other)

@@ -21,15 +21,15 @@ public class MonsterFactory : MonoBehaviour
         {
             case MonsterType.Orc:
                 monsterGameObject = orc;
-                position = new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
+                position = new Vector3(Random.Range(-20, -15), 0.5f, Random.Range(15, 20));
                 break;
             case MonsterType.Ogre:
                 monsterGameObject = ogre;
-                position = new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
+                position = new Vector3(Random.Range(-20, -15), 0.5f, Random.Range(15, 20));
                 break;
             case MonsterType.Goblin:
                 monsterGameObject = goblin;
-                position = new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
+                position = new Vector3(Random.Range(-20, -15), 0.5f, Random.Range(15, 20));
                 break;
         }
 
