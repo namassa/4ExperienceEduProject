@@ -9,9 +9,9 @@ using UnityEngine;
 
 public class MoveCommand : Monster, ICommand
 {
-    public Monster monster;
+    //public Monster monster;
     public void ExecuteCommand()
     {
-        monster.MoveTo(direction, collision);
+    //    monster.MoveTo(direction, collision);
     }
 }
