@@ -6,8 +6,6 @@ public class SceneLoadingController : MonoBehaviour
 {
     public bool IsLoading { get; private set; }
     public float Progress { get; private set; }
-    public System.Action<GameScene> onLoadingComplete = delegate { };
-    public System.Action<GameScene> onLoadingBegin = delegate { };
 
     public static SceneLoadingController Instance { get; private set; }
 
