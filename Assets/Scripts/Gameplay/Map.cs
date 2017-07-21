@@ -29,12 +29,11 @@ public class Map : MonoBehaviour
 		createdMap.transform.position = bounds.center;
 		createdMap.transform.localScale = new Vector3(bounds.extents.z*2f / 10, 1f, bounds.extents.x*2f / 10);
 
-        // TODO solve case when spawn point is outside the map, needs some margin //  getfreewithmargin or overload
         foreach(SpawnElements obj in objectsToSpawn)
         {
             for(int i = 0; i < obj.numberOfObjects; i++)
             {
-                Vector3 randomPosition = GetRandomFreePoint();
+                Vector3 randomPosition = GetRandomFreePoint(2f);
                 Vector3 spawnPosition = new Vector3(randomPosition.x, 
                     obj.elementToSpawn.GetComponent<MeshFilter>().sharedMesh.bounds.extents.y * obj.elementToSpawn.transform.localScale.y, 
                     randomPosition.z);
@@ -45,9 +44,10 @@ public class Map : MonoBehaviour
     }
 
 	//
-	public Vector3 GetRandomPoint()
+	public Vector3 GetRandomPoint(float borderMargin = 0f)
 	{
-		return new Vector3(Random.Range(-bounds.extents.z, bounds.extents.z) + bounds.center.z, 0f, Random.Range(-bounds.extents.x, bounds.extents.x) + bounds.center.x);
+		return new Vector3(Random.Range(-bounds.extents.z + borderMargin, bounds.extents.z - borderMargin) + bounds.center.z, 
+            0f, Random.Range(-bounds.extents.x + borderMargin, bounds.extents.x - borderMargin) + bounds.center.x);
 	}
 
     //
@@ -75,7 +75,7 @@ public class Map : MonoBehaviour
     }
 
     //
-    public Vector3 GetRandomFreePoint()
+    public Vector3 GetRandomFreePoint(float borderMargin = 0f)
     {
 		Vector3 randomPoint;
         int freePointChecks = 0;
@@ -88,7 +88,7 @@ public class Map : MonoBehaviour
                 return Vector3.zero;
             }
 
-			randomPoint = GetRandomPoint();
+			randomPoint = GetRandomPoint(borderMargin);
         } while (!IsTargetPointFree(randomPoint));
 
         return randomPoint;
