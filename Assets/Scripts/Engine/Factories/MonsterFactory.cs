@@ -24,15 +24,15 @@ public class MonsterFactory : MonoBehaviour
         {
             case MonsterType.Orc:
                 respawnMonsterCommand.MonsterPrefab = orc;
-                respawnMonsterCommand.Position = new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
+                respawnMonsterCommand.Position = new Vector3(Random.Range(-20, -15), 0.5f, Random.Range(15, 20));
                 break;
             case MonsterType.Ogre:
                 respawnMonsterCommand.MonsterPrefab = ogre;
-                respawnMonsterCommand.Position = new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
+                respawnMonsterCommand.Position = new Vector3(Random.Range(-20, -15), 0.5f, Random.Range(15, 20));
                 break;
             case MonsterType.Goblin:
                 respawnMonsterCommand.MonsterPrefab = goblin;
-                respawnMonsterCommand.Position = new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
+                respawnMonsterCommand.Position = new Vector3(Random.Range(-20, -15), 0.5f, Random.Range(15, 20));
                 break;
         }
 

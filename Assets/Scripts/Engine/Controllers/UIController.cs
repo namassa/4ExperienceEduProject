@@ -18,17 +18,27 @@ public class UIController : InputController
 
     public void RespawnOrc()
     {
-        _monsterFactoryController.RespawnMonsterByType(MonsterType.Orc, numberOfMonstersToRespawn);
+        _factoryController.RespawnMonsterByType(MonsterType.Orc, numberOfMonstersToRespawn);
     }
 
     public void RespawnOgre()
     {
-        _monsterFactoryController.RespawnMonsterByType(MonsterType.Ogre, numberOfMonstersToRespawn);
+        _factoryController.RespawnMonsterByType(MonsterType.Ogre, numberOfMonstersToRespawn);
     }
 
     public void RespawnGoblin()
     {
-        _monsterFactoryController.RespawnMonsterByType(MonsterType.Goblin, numberOfMonstersToRespawn);
+        _factoryController.RespawnMonsterByType(MonsterType.Goblin, numberOfMonstersToRespawn);
+    }
+
+    public void RespawnVillager()
+    {
+        _factoryController.RespawnCharacterByType(CharacterTypes.Villager, numberOfMonstersToRespawn);
+    }
+
+    public void RespawnHero()
+    {
+        _factoryController.RespawnCharacterByType(CharacterTypes.Hero, numberOfMonstersToRespawn);
     }
 
     public void DeleteOrc()
