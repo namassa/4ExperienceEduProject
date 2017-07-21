@@ -8,20 +8,11 @@ public class Monster : NPC
 {
     public MonsterType monsterType;
     public IEnumerator movingCoroutine;
-    [SerializeField] protected Move move;
 
     public void Awake()
     {
         collision = false;
-        StartCoroutine(move.Moving(gameObject, MoveRandomlyTo(RandomizeDirection(""), collision), movementSpeed));
-    }
-
-    public void Update()
-    {
-        if (!move.isMoving)
-        {
-            StartCoroutine(move.Moving(gameObject, MoveRandomlyTo(RandomizeDirection(""), collision), movementSpeed));
-        }
+        StartCoroutine(Moving(gameObject, MoveRandomlyTo(RandomizeDirection(""), collision), movementSpeed));
     }
 
     public Vector3 MoveRandomlyTo(Vector3 direction, bool collision)
@@ -73,7 +64,15 @@ public class Monster : NPC
         return new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
     }
 
-
+    public IEnumerator Moving(GameObject gameObject, Vector3 direction, float movementSpeed)
+    {
+        while (gameObject.transform.position != direction)
+        {
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, direction, movementSpeed * Time.deltaTime);
+            yield return null;
+        }
+        StartCoroutine(Moving(gameObject, MoveRandomlyTo(RandomizeDirection(""), collision), movementSpeed));
+    }
 
     ////function tell us where monster is moving at present
     //public void WhereAmIGoing(Vector3 direction)
