@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 
-[CustomEditor(typeof(Character))]
-public class CharacterEditor : Editor
+[CustomEditor(typeof(Goblin))]
+public class GoblinEditor : Editor
 {
     public override void OnInspectorGUI()
     {

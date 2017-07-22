@@ -7,18 +7,19 @@ using UnityEngine;
 public class Monster : NPC
 {
     public MonsterType monsterType;
+    [SerializeField] public Character Character;
     private IEnumerator movingCoroutine;
-    private Vector3 direction;
+    public Vector3 direction;
 
-    public void Awake()
+    private void Awake()
     {
-        collision = false;
-        direction = MoveRandomlyTo(RandomizeDirection(""), collision);
-        movingCoroutine = Moving(gameObject, direction, movementSpeed);
+        Collision = false;
+        direction = MoveRandomlyTo(RandomizeDirection(""), Collision);
+        movingCoroutine = Moving(gameObject, direction, Speed);
         StartCoroutine(movingCoroutine);
     }
 
-    public Vector3 MoveRandomlyTo(Vector3 direction, bool collision)
+    private Vector3 MoveRandomlyTo(Vector3 direction, bool collision)
     {
         string condition;
         if (collision)
@@ -51,7 +52,7 @@ public class Monster : NPC
         return Vector3.zero;
     }
 
-    public Vector3 RandomizeDirection(string condition)
+    private Vector3 RandomizeDirection(string condition)
     {
         switch (condition)
         {
@@ -67,15 +68,15 @@ public class Monster : NPC
         return new Vector3(Random.Range(-20, 20), 0.5f, Random.Range(-20, 20));
     }
 
-    public IEnumerator Moving(GameObject gameObject, Vector3 direction, float movementSpeed)
+    private IEnumerator Moving(GameObject gameObject, Vector3 direction, float speed)
     {
         while (gameObject.transform.position != direction)
         {
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, direction, movementSpeed * Time.deltaTime);
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, direction, speed * Time.deltaTime);
             yield return null;
         }
-        direction = MoveRandomlyTo(RandomizeDirection(""), collision);
-        movingCoroutine = Moving(gameObject, direction, movementSpeed);
+        direction = MoveRandomlyTo(RandomizeDirection(""), Collision);
+        movingCoroutine = Moving(gameObject, direction, speed);
         StartCoroutine(movingCoroutine);
     }
 
@@ -89,13 +90,13 @@ public class Monster : NPC
     //mark as trigger
     private void OnTriggerEnter(Collider other)
     {
-        collision = true;
+        Collision = true;
         if (tag == other.tag)
         {
             //SayHello();
 
             StopCoroutine(movingCoroutine);
-            movingCoroutine = Moving(gameObject, direction, movementSpeed);
+            movingCoroutine = Moving(gameObject, direction, Speed);
             StartCoroutine(movingCoroutine);
         }
         else if (other.tag != "Plane")

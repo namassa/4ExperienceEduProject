@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Character")]
-public class Character : ScriptableObject
+public abstract class Character : ScriptableObject
 {
-    public float level;
+    protected abstract int Level { get; set; }
+    public abstract int FullHP { get; set; }
 }

@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 
-public abstract class NPC : MonoBehaviour
+public class NPC : MonoBehaviour
 {
-    [SerializeField] protected Character character;
-    [SerializeField] protected float movementSpeed;
-    [SerializeField] protected int health;
-    [SerializeField] protected int damage;
-    protected bool collision;
+    [SerializeField] public int Health;
+    [SerializeField] public int Damage;
+    [SerializeField] protected float Speed;
+    protected bool Collision;
 }
