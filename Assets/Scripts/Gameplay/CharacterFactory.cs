@@ -12,8 +12,9 @@ public class CharacterFactory : MonoBehaviour
     // we don't have to specify one big enum for all enemy types or define multiple enums if we want customize available enemy types
     [SerializeField]
     private GameObject[] prefabList;
-	private Dictionary <string, GameObject> _characterPrefabs;
-
+    private string[] _prefabNames;
+    private Dictionary <string, GameObject> _characterPrefabs;
+    
     [SerializeField]
     private Transform characterSpawnPosition;
     private FactoriesController factoriesCtrl;
@@ -22,32 +23,35 @@ public class CharacterFactory : MonoBehaviour
     void Awake()
 	{
         factoriesCtrl = FindObjectOfType<FactoriesController>();
-        factoriesCtrl.AddFactory(this);
 
 		_characterPrefabs = new Dictionary<string, GameObject>();
-		foreach (GameObject prefab in prefabList)
-			_characterPrefabs.Add (prefab.name, prefab);
-	}
+        foreach (GameObject prefab in prefabList)
+        {
+            _characterPrefabs.Add(prefab.name, prefab);
+        }
+
+        _prefabNames = new string[prefabList.Length];
+        _characterPrefabs.Keys.CopyTo(_prefabNames, 0);
+
+        factoriesCtrl.AddFactory(this, _prefabNames);
+    }
 
     //
     void OnDisable()
     {
-        factoriesCtrl.RemoveFactory(this);
+        factoriesCtrl.RemoveFactory(this, _prefabNames);
     }
 
     //
     public GameObject SpawnCharacter(SpawnCommand spawnCommand)
     {
-		if (_characterPrefabs.ContainsKey(spawnCommand.characterPrefabName))
-        {
-			GameObject requestedPrefab = _characterPrefabs [spawnCommand.characterPrefabName];
-            GameObject insantiatedCharacter = Instantiate(requestedPrefab, characterSpawnPosition.position, Quaternion.identity);
-            return insantiatedCharacter;
-        }
-        else
-        {
-			Debug.LogWarning("requested prefab not found, name: " + spawnCommand.characterPrefabName);
-            return null;
-        }
+		GameObject requestedPrefab = _characterPrefabs [spawnCommand.characterPrefabName];
+
+        Vector3 correctHeightSpawnPos = new Vector3(characterSpawnPosition.position.x, 
+            requestedPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.extents.y * requestedPrefab.transform.localScale.y, 
+            characterSpawnPosition.position.z);
+
+        GameObject insantiatedCharacter = Instantiate(requestedPrefab, correctHeightSpawnPos, characterSpawnPosition.rotation);
+        return insantiatedCharacter;
     }
 }
