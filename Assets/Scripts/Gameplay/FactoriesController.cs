@@ -14,8 +14,8 @@ public class FactoriesController : MonoBehaviour
 	}
 
 	//
-	List<CharacterFactory> charFactories = new List<CharacterFactory>();
-    List<GameObject> spawnedCharacters = new List<GameObject>();
+	List<CharacterFactory> _charFactories = new List<CharacterFactory>();
+    List<GameObject> _spawnedCharacters = new List<GameObject>();
 
 	//
 	private void Awake() 
@@ -26,30 +26,35 @@ public class FactoriesController : MonoBehaviour
     //
     public void AddFactory(CharacterFactory factory)
     {
-        charFactories.Add(factory);
+		_charFactories.Add(factory);
     }
 
     //
     public void RemoveFactory(CharacterFactory factory)
     {
-        charFactories.Remove(factory);
+		_charFactories.Remove(factory);
     }
 
     //
     public void PassSpawnCommand(SpawnCommand command) 
 	{
-        // TODO get a random factory from a list with that given prefab // register with prefabs
-		//GameObject newCharacter = factory.SpawnCharacter (command);
-  //      if (newCharacter != null)
-  //      {
-  //          spawnedCharacters.Add(newCharacter);
-  //      }
+		// Optimization (dictionary) needed
+		foreach(CharacterFactory factory in _charFactories)
+		{
+			GameObject newCharacter = factory.SpawnCharacter (command);
+			if (newCharacter != null)
+			{
+				_spawnedCharacters.Add(newCharacter);
+				break;
+			}
+		}
+
 	}
 
     //
     private void RemoveCharacterFromList(GameObject character)
     {
         // should also destroy the enemy gameObject?
-        spawnedCharacters.Remove(character);
+		_spawnedCharacters.Remove(character);
     }
 }

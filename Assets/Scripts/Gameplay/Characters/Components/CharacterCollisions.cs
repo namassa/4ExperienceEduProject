@@ -4,20 +4,18 @@ using UnityEngine;
 
 // kzlukos@gmail.com
 // Detects collisions with other objects
-public class UnitCollisions : MonoBehaviour 
+public class CharacterCollisions : MonoBehaviour 
 {
-
-	private UnitController _unitController;
+	private CharacterController _characterController;
 	private int _layer;
 
 	//
 	void Start()
 	{
-		_unitController = GetComponent<UnitController> ();
+		_characterController = GetComponent<CharacterController> ();
 		_layer = LayerMask.NameToLayer ("Units");
 	}
-
-	//Different implementation for different units?
+		
 	void OnCollisionEnter(Collision collision) 
 	{
 		if (collision.gameObject.layer == _layer) 
@@ -25,8 +23,8 @@ public class UnitCollisions : MonoBehaviour
 			var greetCmd = new ActionCommand (ActionType.Greet);
 			var repathCmd = new RandomizePosititonCommand (transform.position - collision.transform.position);
 
-			_unitController.PassUnitCommand (greetCmd);
-			_unitController.PassUnitCommand (repathCmd);
+			_characterController.PassUnitCommand (greetCmd);
+			_characterController.PassUnitCommand (repathCmd);
 		}
 	}
 

@@ -38,9 +38,9 @@ public class CharacterFactory : MonoBehaviour
     //
     public GameObject SpawnCharacter(SpawnCommand spawnCommand)
     {
-		GameObject requestedPrefab = _characterPrefabs [spawnCommand.characterPrefabName];
-        if (requestedPrefab != null)
+		if (_characterPrefabs.ContainsKey(spawnCommand.characterPrefabName))
         {
+			GameObject requestedPrefab = _characterPrefabs [spawnCommand.characterPrefabName];
             GameObject insantiatedCharacter = Instantiate(requestedPrefab, characterSpawnPosition.position, Quaternion.identity);
             return insantiatedCharacter;
         }

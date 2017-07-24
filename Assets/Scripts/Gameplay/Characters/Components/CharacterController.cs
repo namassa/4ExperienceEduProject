@@ -6,19 +6,18 @@ using UnityEngine;
 // kzlukos@gmail.com
 // Handles UnitCommands
 // (todo) holds an information about unit state
-public class UnitController : MonoBehaviour {
+public class CharacterController : MonoBehaviour {
 
-	private UnitLocomotion _unitLocomotion;
-	private IUnitActions _unitActions;
+	private CharacterLocomotion _characterLocomotion;
+	private IUnitActions _characterActions;
 
 	//
 	void Start()
 	{
-		_unitLocomotion = GetComponent<UnitLocomotion> ();
-		_unitActions = GetComponent<IUnitActions> ();
+		_characterLocomotion = GetComponent<CharacterLocomotion> ();
+		_characterActions = GetComponent<IUnitActions> ();
 		PassUnitCommand (new RandomizePosititonCommand ());
 	}
-
 
 	//
 	public void PassUnitCommand(RandomizePosititonCommand command)
@@ -26,9 +25,8 @@ public class UnitController : MonoBehaviour {
 		Vector3 direction = ((RandomizePosititonCommand)command).direction;
 		Vector3 newTargetPosition = MapManager.Instance.Map.GetRandomPoint (direction, transform.position);
 
-		if(_unitLocomotion != null)
-			_unitLocomotion.SetTargetPosition (newTargetPosition);
-
+		if(_characterLocomotion != null)
+			_characterLocomotion.SetTargetPosition (newTargetPosition);
 	}
 
 	//
@@ -37,7 +35,7 @@ public class UnitController : MonoBehaviour {
 		switch (command.actionType) 
 		{
 		case ActionType.Greet:
-			_unitActions.Greet();
+			_characterActions.Greet();
 			break;
 
 		}

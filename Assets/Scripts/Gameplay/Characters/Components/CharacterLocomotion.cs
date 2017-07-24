@@ -4,9 +4,10 @@ using UnityEngine;
 
 // kzlukos@gmail.com
 // Executes movment towards target position
-[RequireComponent(typeof(UnitController))]
-public class UnitLocomotion : MonoBehaviour 
+[RequireComponent(typeof(CharacterController))]
+public class CharacterLocomotion : MonoBehaviour 
 {
+
 	[Header("Movement parameters")]
 	[SerializeField]
 	private float movementSpeed = 1;
@@ -17,15 +18,16 @@ public class UnitLocomotion : MonoBehaviour
 	[SerializeField]
 	private float startMovingAngle = 30f;
 
-	//
-	private UnitController _unitController;
 	private Rigidbody _rigidbody;
 	private Vector3? _targetPosition;
 
 	//
+	private CharacterController _characterController;
+
+	//
 	void Start()
 	{
-		_unitController = GetComponent<UnitController> ();
+		_characterController = GetComponent<CharacterController> ();
 		_rigidbody = GetComponent<Rigidbody> ();
 	}
 
@@ -53,7 +55,7 @@ public class UnitLocomotion : MonoBehaviour
 			if (targetDirection.magnitude < destinationReachedTolerance) 
 			{
 				_targetPosition = null;
-				_unitController.PassUnitCommand (new RandomizePosititonCommand ());
+				_characterController.PassUnitCommand (new RandomizePosititonCommand ());
 				return;
 			}
 
