@@ -12,9 +12,10 @@ public class MonsterFactory : MonoBehaviour
     [SerializeField] private GameObject ogre;
     [SerializeField] private GameObject goblin;
 
+    GameObject monsterGameObject;
+
     public void RespawnMonstersByType(Monster monster)
     {
-        GameObject monsterGameObject = new GameObject();
         Vector3 position = Vector3.zero;
 
         switch (monster.MonsterType)

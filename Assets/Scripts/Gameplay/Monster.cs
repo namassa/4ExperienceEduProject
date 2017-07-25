@@ -80,17 +80,12 @@ public class Monster : NPC
         StartCoroutine(movingCoroutine);
     }
 
-    ////function tell us where monster is moving at present
-    //public void WhereAmIGoing(Vector3 direction)
-    //{
-    //    Debug.Log("i'm going to " + direction.x + " " + direction.y + " " + direction.z);
-    //}
-
 
     //mark as trigger
     private void OnTriggerEnter(Collider other)
     {
         Collision = true;
+
         if (tag == other.tag)
         {
             //SayHello();
@@ -98,11 +93,6 @@ public class Monster : NPC
             StopCoroutine(movingCoroutine);
             movingCoroutine = Moving(gameObject, direction, Speed);
             StartCoroutine(movingCoroutine);
-        }
-        else if (other.tag != "Plane")
-        {
-            Debug.Log("doing damage to enemy");
-            //DoDamage(other);
         }
     }
 

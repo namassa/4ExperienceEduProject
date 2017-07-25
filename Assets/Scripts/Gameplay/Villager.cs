@@ -12,67 +12,45 @@ public class Villager : NPC
 
     private void Awake()
     {
-        Collision = false;
-        RunAway();
+        monstersPositions = new List<Vector3>();
     }
-
-    private void RunAway()
+    private void OnTriggerEnter(Collider other)
     {
-        throw new NotImplementedException();
+        if (other.tag == "Plane") return;
+        if (other.isTrigger && other.tag == "Monster")
+        {
+            RunAway(other.GetComponent<Monster>().direction);
+        }
     }
 
-    private float GetMinimumDistance()
+    private void RunAway(Vector3 direction)
     {
-        float minimumDistance = Mathf.Infinity;
-        foreach (var monster in UIController.monsters)
-        {
-            monstersPositions.Add(monster.GetComponent<Monster>().transform.position);
-        }
-        foreach (var monsterPosition in monstersPositions)
-        {
-            float distance = Vector3.Distance(monsterPosition, transform.position);
-            if (distance < minimumDistance)
-            {
-                minimumDistance = distance;
-            }
-        }
-        return minimumDistance;
+        direction.x = -direction.x;
+        direction.z = -direction.z;
+        movingCoroutine = Moving(gameObject, direction, Speed);
+        StartCoroutine(movingCoroutine);
     }
-
     private IEnumerator Moving(GameObject gameObject, Vector3 direction, float speed)
     {
         while (gameObject.transform.position != direction)
         {
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, -direction, speed * Time.deltaTime);
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, direction, speed * Time.deltaTime);
             yield return null;
         }
-
-        RunAway();
-
-        ////direction = MoveRandomlyTo(RandomizeDirection(""), Collision);
-        //movingCoroutine = Moving(gameObject, direction, speed);
-        //StartCoroutine(movingCoroutine);
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        Collision = true;
-        if (other.tag == "Monster")
+        if(collision.transform.tag == "Monster")
         {
-            var monster = other.gameObject.GetComponent<Monster>();
+                var monster = collision.gameObject.GetComponent<Monster>();
 
-            GetDamageBy(monster);
+                GetDamageBy(monster);
 
             if (Health <= 0)
             {
                 monster.Health = monster.Character.FullHP;
                 Destroy(gameObject);
             }
-        }
-        else if (other.tag != "Plane")
-        {
-            //Debug.Log("doing damage to enemy");
-            //DoDamage(other);
         }
     }
 
