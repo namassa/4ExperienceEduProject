@@ -4,21 +4,31 @@ using UnityEngine;
 
 // kzlukos@gmail.com
 // Detects collisions with other objects
-public class CharacterCollisions : MonoBehaviour 
+// Holds a list of other characters in field of view
+public class CharacterPerception : MonoBehaviour 
 {
+
 	private CharacterController _characterController;
-	private int _layer;
+	private int _charactersLayer;
 
 	//
 	void Start()
 	{
 		_characterController = GetComponent<CharacterController> ();
-		_layer = LayerMask.NameToLayer ("Units");
+		_charactersLayer = LayerMask.NameToLayer ("Units");
 	}
-		
+
+	//
+	void Update()
+	{
+
+	}
+
+	//
 	void OnCollisionEnter(Collision collision) 
 	{
-		if (collision.gameObject.layer == _layer) 
+		// With other characters
+		if (collision.gameObject.layer == _charactersLayer) 
 		{
 			var greetCmd = new ActionCommand (ActionType.Greet);
 			var repathCmd = new RandomizePosititonCommand (transform.position - collision.transform.position);
