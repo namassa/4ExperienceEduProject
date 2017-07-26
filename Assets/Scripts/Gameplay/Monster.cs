@@ -96,18 +96,23 @@ public class Monster : NPC
         }
     }
 
-    ////method calls only if enter enemy collider and dealing damage
-    //public void DoDamage(Collider other)
-    //{
-    //    //deal damage to enemy
-    //    other.gameObject.GetComponent<Monster>().health -= damage;
-    //}
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Character")
+        {
+            var character = collision.gameObject.GetComponent<Hero>();
 
-    ////method calls only if enter friend collider and saying hello
-    //public void SayHello()
-    //{
-    //    Debug.Log("Hello");
-    //}
+            GetDamageBy(character);
 
-    //method which moving the object to random position
+            if (Health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+    private void GetDamageBy(Hero character)
+    {
+        Health -= character.Damage;
+        Debug.Log(gameObject.name + Health);
+    }
 }

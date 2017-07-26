@@ -13,9 +13,11 @@ public class CharacterFactory : MonoBehaviour
     [SerializeField] protected GameObject villager;
     [SerializeField] protected GameObject hero;
 
+    GameObject characterGameObject;
+
     public void RespawnCharactersByType(Character character)
     {
-        GameObject characterGameObject = new GameObject();
+        
         Vector3 position = Vector3.zero;
 
         switch (character.CharacterType)

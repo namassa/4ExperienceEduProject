@@ -25,8 +25,8 @@ public class Villager : NPC
 
     private void RunAway(Vector3 direction)
     {
-        direction.x = -direction.x;
-        direction.z = -direction.z;
+        direction.x *= 2f;
+        direction.z *= 2f;
         movingCoroutine = Moving(gameObject, direction, Speed);
         StartCoroutine(movingCoroutine);
     }
